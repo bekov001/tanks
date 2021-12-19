@@ -48,4 +48,5 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Движущийся круг 2')
     main()
+    print(board.board)
     pygame.quit()
