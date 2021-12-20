@@ -1,5 +1,2 @@
 from .variables import *
-
-all = (
-    "N"
-)
+from .func import *

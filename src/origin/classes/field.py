@@ -1,4 +1,7 @@
 import pygame
+
+from classes.tank import Tank
+from classes.texture import Texture
 from helpers import *
 
 
@@ -14,6 +17,10 @@ class Field:
         self.top = 10
         self.cell_size = 30
 
+    def is_empty(self, pos):
+        print(pos)
+        return not self.board[pos[0]][pos[1]]
+
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -21,14 +28,22 @@ class Field:
         self.cell_size = cell_size
 
     def render(self, screen):
+        # image = load_image("player_tank.png")
+        # image1 = pygame.transform.scale(image, (55, 55))
+        # screen.blit(image1, (5, 5))
+        #
+        # image = load_image("enemy_tank.png")
+        # image1 = pygame.transform.scale(image, (55, 55))
+        # screen.blit(image1, (55, 55))
+
         for index, lst in enumerate(self.board):
             for j, el in enumerate(lst):
                 start_pos = (self.left + index * self.cell_size,
                              self.top + j * self.cell_size)
-                pygame.draw.rect(screen, "white", (start_pos[0], start_pos[1],
-                                                   self.cell_size,
-                                                   self.cell_size), 1
-                                 if el == 0 else 0)
+                if el != 0:
+                    # TODO рисование блоков
+                    Texture(start_pos)
+
 
     def pos_in_board(self, x, y):
         return self.left < x < self.left + len(self.board) * self.cell_size and \
@@ -39,6 +54,7 @@ class Field:
         if self.pos_in_board(x, y):
             return (x - self.left) // self.cell_size, (
                     y - self.top) // self.cell_size
+        return (-1, -1)
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)

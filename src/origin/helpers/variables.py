@@ -1,8 +1,16 @@
+import pygame
+
 SIZE = WIDTH, HEIGHT = 1000, 890
 N = 18
 EMPTY = 0
 BRICK = 1
 METAL = 2
+
+CELL_SIZE = 55
+
+
+ALL_SPRITES = pygame.sprite.Group()
+TEXTURE_GROUP = pygame.sprite.Group()
 
 field = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

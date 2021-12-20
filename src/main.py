@@ -2,36 +2,31 @@ import time
 
 import pygame
 
+from classes.player_tank import PlayerTank
+from classes.tank import Tank
 from src.origin.classes.field import Field
-from helpers import N, SIZE
+from helpers import N, SIZE, ALL_SPRITES
 
 
 def main():
-    active = False
+    active = True
     running = True
     timing = time.time()
-    seconds = 0
+    seconds = 0.1
+    player = PlayerTank(60, 60)
+    board.render(screen)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and \
-                    not active:
-                board.get_click(event.pos)
-                board.render(screen)
-            if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE) \
-                    or (
-                    event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
-                active = not active
-            if event.type == pygame.MOUSEWHEEL and active:
-                if seconds - 0.01 * event.y > 0:
-                    seconds -= 0.01 * event.y
+            player.update(event, board)
         if active:
             if time.time() - timing > seconds:
                 timing = time.time()
-        screen.fill((0, 0, 0))
-        board.render(screen)
-        pygame.display.flip()
+                screen.fill((0, 0, 0))
+                ALL_SPRITES.draw(screen)
+                ALL_SPRITES.update()
+            pygame.display.flip()
 
 
 cell_size = 55
