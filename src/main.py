@@ -23,7 +23,7 @@ def main():
         if active:
             if time.time() - timing > seconds:
                 timing = time.time()
-                screen.fill((0, 0, 0))
+                screen.fill("yellow")
                 ALL_SPRITES.draw(screen)
                 ALL_SPRITES.update()
             pygame.display.flip()
