@@ -3,8 +3,8 @@ from itertools import product
 from .tank import Tank
 import pygame
 import random
-from ..helpers.func import load_image
-from ..helpers.variables import *
+
+from helpers import *
 
 
 class PlayerTank(Tank):

@@ -2,10 +2,10 @@ import time
 
 import pygame
 
-from origin.classes.player_tank import PlayerTank
-from origin.classes.tank import Tank
-from origin.classes.field import Field
-from origin.helpers import N, SIZE, ALL_SPRITES
+from classes.player_tank import PlayerTank
+from classes.tank import Tank
+from src.origin.classes.field import Field
+from helpers import N, SIZE, ALL_SPRITES
 
 
 def main():
