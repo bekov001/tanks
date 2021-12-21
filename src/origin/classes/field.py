@@ -1,8 +1,9 @@
 import pygame
 
-from classes.tank import Tank
-from classes.texture import Texture
-from helpers import *
+from .tank import Tank
+from .texture import Texture
+from ..helpers.func import load_image
+from ..helpers.variables import *
 
 
 class Field:

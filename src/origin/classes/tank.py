@@ -1,7 +1,8 @@
 import pygame
 import random
 
-from helpers import ALL_SPRITES, TEXTURE_GROUP, load_image, CELL_SIZE
+from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE
+from ..helpers.func import load_image
 
 
 class Tank(pygame.sprite.Sprite):

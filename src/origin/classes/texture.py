@@ -1,6 +1,6 @@
 import pygame
 
-from helpers import TEXTURE_GROUP, ALL_SPRITES, CELL_SIZE
+from ..helpers.variables import TEXTURE_GROUP, ALL_SPRITES, CELL_SIZE
 
 
 class Texture(pygame.sprite.Sprite):
