@@ -6,7 +6,7 @@ from ..helpers.func import load_image
 from .texture import Texture
 
 
-class Brick(Texture):
+class Iron(Texture):
     """Класс железного блока, при попадании не ломается"""
     def __init__(self, *args):
         super().__init__(*args)

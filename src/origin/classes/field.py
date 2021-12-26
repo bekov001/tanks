@@ -54,7 +54,7 @@ class Field:
                     Brick(start_pos, self)
 
     def pos_in_board(self, x, y):
-
+        """Функция проверки координат на нахождении в поле"""
         return self.left < x < self.left + len(self.board) * self.cell_size and \
                self.top < y < self.top + len(self.board[0]) * self.cell_size
 
