@@ -1,11 +1,12 @@
 from itertools import product
-
-from .strike import Strike
-from .tank import Tank
 import pygame
 import random
 
-from helpers import *
+from ..helpers.func import load_image
+from ..helpers.variables import *
+
+from .strike import Strike
+from .tank import Tank
 
 
 class PlayerTank(Tank):

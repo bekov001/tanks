@@ -1,6 +1,8 @@
-from classes.texture import Texture
-from helpers import load_image, CELL_SIZE, STRIKE_GROUP
 import pygame as pg
+
+from ..helpers.variables import *
+
+from .texture import Texture
 
 
 class Brick(Texture):

@@ -1,9 +1,9 @@
 import pygame
 
-from classes.brick import Brick
-from classes.tank import Tank
-from classes.texture import Texture
-from helpers import *
+from .brick import Brick
+from .tank import Tank
+from .texture import Texture
+from ..helpers.variables import *
 
 
 class Field:
