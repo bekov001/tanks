@@ -24,6 +24,7 @@ class PlayerTank(Tank):
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
+        pass
 
     def update(self, *args):
         data = zip((-90, 90, 180, 0), ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)), [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
