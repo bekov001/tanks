@@ -9,7 +9,7 @@ class Tank(pygame.sprite.Sprite):
     """Базовый танк класс"""
     def __init__(self, x, y):
         super().__init__(ALL_SPRITES)
-        self.image = pygame.transform.scale(load_image("old_tank.png"),
+        self.image = pygame.transform.scale(load_image("player_tank.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.rect = pygame.Rect(x, y, CELL_SIZE,
                                 CELL_SIZE)

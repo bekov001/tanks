@@ -2,10 +2,9 @@ import time
 
 import pygame
 
-from origin.classes.player_tank import PlayerTank
-from origin.classes.tank import Tank
+from src.origin.classes.inheritors.player_tank import PlayerTank
 from origin.classes.field import Field
-from origin.helpers.variables import N, SIZE, ALL_SPRITES
+from origin.helpers.variables import N, SIZE, ALL_SPRITES, CELL_SIZE
 
 
 def main():
@@ -14,7 +13,7 @@ def main():
     timing = time.time()
     seconds = 0.1
     player = PlayerTank(60, 60)
-    board.render(screen)
+    board.render()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -23,25 +22,21 @@ def main():
         if active:
             if time.time() - timing > seconds:
                 timing = time.time()
-                screen.fill("black")
+                # screen.fill("white")
                 ALL_SPRITES.draw(screen)
                 ALL_SPRITES.update()
             pygame.display.flip()
 
 
-cell_size = 55
-print(cell_size)
 screen = pygame.display.set_mode(SIZE)
 fps = 120
 clock = pygame.time.Clock()
 board = Field(N - 2, N)
-board.set_view(5, 5, cell_size)
-screen.fill((0, 0, 0))
-board.render(screen)
+board.set_view(5, 5, CELL_SIZE)
+
 
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Движущийся круг 2')
     main()
-    print(board.board)
     pygame.quit()

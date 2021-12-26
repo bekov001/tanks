@@ -1,13 +1,3 @@
-import math
-import pygame
-import random
-from itertools import product
-
-from .tank import Tank
-import pygame
-import random
-
-from ..helpers.func import load_image
 from ..helpers.variables import *
 
 
@@ -26,9 +16,9 @@ class Strike(pygame.sprite.Sprite):
         self.vx, self.vy = (mouse_pos[0] - tank_pos[0]) // 3, (mouse_pos[1] - tank_pos[1]) // 3
         self.pos = (3, 3)
         self.step = 10
-        print(self.vx, self.vy)
 
     def update(self, *args):
+        print(123)
         step_x, step = 0, 0
         if self.vx > 0:
             self.vx -= 1
