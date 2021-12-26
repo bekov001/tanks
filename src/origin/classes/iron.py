@@ -1,6 +1,7 @@
 import pygame as pg
 
 from ..helpers.variables import *
+from ..helpers.func import load_image
 
 from .texture import Texture
 

@@ -22,5 +22,5 @@ class EnemyTank(Tank):
         """Функция для получения дула танка"""
 
     def update(self):
-        ""
+        """Обновлние спрайта"""
         pass

@@ -1,3 +1,4 @@
+"""Постоянные"""
 import pygame
 
 SIZE = WIDTH, HEIGHT = 1000, 890

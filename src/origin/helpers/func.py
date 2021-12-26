@@ -4,6 +4,7 @@ import sys
 
 
 def load_image(name, colorkey=None):
+    """Функция загрузки изображения"""
     fullname = os.path.join("origin","media", 'img', name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):

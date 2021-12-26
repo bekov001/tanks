@@ -18,6 +18,7 @@ class PlayerTank(Tank):
         self.current_angle = 0
 
     def strike(self, event):
+        """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN:
             Strike((self.rect.x, self.rect.y), event.pos)
 
