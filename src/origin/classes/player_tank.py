@@ -16,7 +16,7 @@ class PlayerTank(Tank):
 
         self.current_angle = 0
 
-    def strike(self, event, board):
+    def strike(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             Strike((self.rect.x, self.rect.y), event.pos)
 
@@ -34,4 +34,4 @@ class PlayerTank(Tank):
                     self.image = pygame.transform.rotate(self.image, self.current_angle - angle)
                     self.current_angle = angle
         if args:
-            self.strike(args[0], args[1])
+            self.strike(args[0])

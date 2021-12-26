@@ -5,6 +5,7 @@ from helpers import ALL_SPRITES, TEXTURE_GROUP, load_image, CELL_SIZE
 
 
 class Tank(pygame.sprite.Sprite):
+    """Базовый танк класс"""
     def __init__(self, x, y):
         super().__init__(ALL_SPRITES)
         self.image = pygame.transform.scale(load_image("old_tank.png"),

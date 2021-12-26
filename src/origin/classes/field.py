@@ -1,11 +1,13 @@
 import pygame
 
+from classes.brick import Brick
 from classes.tank import Tank
 from classes.texture import Texture
 from helpers import *
 
 
 class Field:
+    """Класс поля"""
     def __init__(self, width, height):
         self.move = True
         self.width = width
@@ -17,8 +19,13 @@ class Field:
         self.top = 10
         self.cell_size = 30
 
+    def set_empty(self, pos: tuple):
+        """Делает данную клетку пустой"""
+        pos = self.get_cell(pos)
+        self.board[pos[0]][pos[1]] = EMPTY
+
     def is_empty(self, pos):
-        print(pos)
+        """Проверяет клетка пуста или нет и возвращает значение"""
         return not self.board[pos[0]][pos[1]]
 
     # настройка внешнего вида
@@ -42,7 +49,7 @@ class Field:
                              self.top + j * self.cell_size)
                 if el != 0:
                     # TODO рисование блоков
-                    Texture(start_pos)
+                    Brick(start_pos, self)
 
 
     def pos_in_board(self, x, y):
