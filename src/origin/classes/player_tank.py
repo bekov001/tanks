@@ -1,11 +1,12 @@
 from itertools import product
-
-from .strike import Strike
-from .tank import Tank
 import pygame
 import random
 
-from helpers import *
+from ..helpers.func import load_image
+from ..helpers.variables import *
+
+from .strike import Strike
+from .tank import Tank
 
 
 class PlayerTank(Tank):
@@ -17,11 +18,13 @@ class PlayerTank(Tank):
         self.current_angle = 0
 
     def strike(self, event):
+        """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN:
             Strike((self.rect.x, self.rect.y), event.pos)
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
+        pass
 
     def update(self, *args):
         data = zip((-90, 90, 180, 0), ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)), [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])

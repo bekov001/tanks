@@ -1,9 +1,9 @@
 import pygame
 
-from classes.brick import Brick
-from classes.tank import Tank
-from classes.texture import Texture
-from helpers import *
+from .brick import Brick
+from .tank import Tank
+from .texture import Texture
+from ..helpers.variables import *
 
 
 class Field:
@@ -30,11 +30,13 @@ class Field:
 
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
+        """Функция для изменения размеров и координаты поля"""
         self.left = left
         self.top = top
         self.cell_size = cell_size
 
     def render(self, screen):
+        """Функция прорисовки поля"""
         # image = load_image("player_tank.png")
         # image1 = pygame.transform.scale(image, (55, 55))
         # screen.blit(image1, (5, 5))
@@ -51,12 +53,13 @@ class Field:
                     # TODO рисование блоков
                     Brick(start_pos, self)
 
-
     def pos_in_board(self, x, y):
+        """Функция проверки координат на нахождении в поле"""
         return self.left < x < self.left + len(self.board) * self.cell_size and \
                self.top < y < self.top + len(self.board[0]) * self.cell_size
 
     def get_cell(self, mouse_pos):
+        """Возвращает координату клетки, по координатом окна"""
         x, y = mouse_pos
         if self.pos_in_board(x, y):
             return (x - self.left) // self.cell_size, (
@@ -64,10 +67,12 @@ class Field:
         return (-1, -1)
 
     def get_click(self, mouse_pos):
+        """Принимает координаты нажатия"""
         cell = self.get_cell(mouse_pos)
         if cell is not None:
             self.on_click(cell)
             self.move = not self.move
 
     def on_click(self, cell):
+        """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
         self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2

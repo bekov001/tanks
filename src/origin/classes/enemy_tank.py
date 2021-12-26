@@ -1,8 +1,8 @@
+from ..helpers.variables import *
+from ..helpers.func import load_image
+
 from .strike import Strike
 from .tank import Tank
-
-
-from helpers import *
 
 
 class EnemyTank(Tank):
@@ -22,5 +22,5 @@ class EnemyTank(Tank):
         """Функция для получения дула танка"""
 
     def update(self):
-        ""
+        """Обновлние спрайта"""
         pass

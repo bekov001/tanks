@@ -1,9 +1,12 @@
-from classes.texture import Texture
-from helpers import load_image, CELL_SIZE, STRIKE_GROUP
 import pygame as pg
 
+from ..helpers.variables import *
+from ..helpers.func import load_image
 
-class Brick(Texture):
+from .texture import Texture
+
+
+class Iron(Texture):
     """Класс железного блока, при попадании не ломается"""
     def __init__(self, *args):
         super().__init__(*args)

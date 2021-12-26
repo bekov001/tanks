@@ -3,7 +3,6 @@ from itertools import product
 import pygame
 import random
 
-from helpers import N
 
 EMPTY = 0
 WALL = 1

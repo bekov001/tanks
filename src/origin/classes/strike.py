@@ -1,11 +1,14 @@
 import math
+import pygame
+import random
 from itertools import product
 
 from .tank import Tank
 import pygame
 import random
 
-from helpers import *
+from ..helpers.func import load_image
+from ..helpers.variables import *
 
 
 class Strike(pygame.sprite.Sprite):
