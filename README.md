@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tanks
 
 Танки крутая игра на pygame
@@ -91,3 +92,20 @@ For open source projects, say how it is licensed.
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
 
+=======
+# Игра в танки
+Игра реализована с помощью языке python3.9, библиотеки [pygame](https://www.pygame.org/news). Игра имеет несколько уровней.
+Правила: есть танки, которые стреляют, есть стенки пробиваемые и непробиваемые танком. Выигрывает тот, кто остается последним. 
+Рекорд записывается в очках, которые даются за попадания во вражеский танк. 
+
+На данный момент игра запускается через [main.py](./main.py)
+
+Файловая структура:
+- src
+   - origin
+      - media (здесь хранится db, images, music)
+      - classes (все классы: танки и т.д.)
+      - helpers (константы, вспомогательный функции)
+   - 'main.py' (функция запуска)
+ 
+>>>>>>> Adilka
