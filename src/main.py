@@ -9,6 +9,7 @@ from origin.helpers.variables import N, SIZE, ALL_SPRITES
 
 
 def main():
+    """Главная функция запуска"""
     active = True
     running = True
     timing = time.time()
