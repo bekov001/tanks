@@ -26,15 +26,14 @@ class Strike(pygame.sprite.Sprite):
         self.vx, self.vy = (mouse_pos[0] - tank_pos[0]) // 3, (mouse_pos[1] - tank_pos[1]) // 3
         self.pos = (3, 3)
         self.step = 10
-        print(self.vx, self.vy)
 
     def update(self, *args):
         step_x, step = 0, 0
         if self.vx > 0:
-            self.vx -= 1
+            self.vx -= self.step
             step_x = self.step
         if self.vy > 0:
-            self.vy -= 1
+            self.vy -= self.step
             step = self.step
         if pygame.sprite.spritecollideany(self, TEXTURE_GROUP):
             self.kill()

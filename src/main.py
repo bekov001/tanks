@@ -3,7 +3,6 @@ import time
 import pygame
 
 from origin.classes.player_tank import PlayerTank
-from origin.classes.tank import Tank
 from origin.classes.field import Field
 from origin.helpers.variables import N, SIZE, ALL_SPRITES
 
