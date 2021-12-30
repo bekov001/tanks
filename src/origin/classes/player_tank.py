@@ -2,8 +2,8 @@ from itertools import product
 import pygame
 import random
 
-from ..helpers.func import load_image
-from ..helpers.variables import *
+from origin.helpers.func import load_image
+from origin.helpers.variables import *
 
 from .strike import Strike
 from .tank import Tank
@@ -20,7 +20,7 @@ class PlayerTank(Tank):
     def strike(self, event):
         """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Strike((self.rect.x, self.rect.y), event.pos)
+            Strike(self.rect.center, event.pos)
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
