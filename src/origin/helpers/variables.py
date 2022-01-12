@@ -13,8 +13,10 @@ CELL_SIZE = 55
 ALL_SPRITES = pygame.sprite.Group()
 TEXTURE_GROUP = pygame.sprite.Group()
 STRIKE_GROUP = pygame.sprite.Group()
-BONUS_GROUP = pygame.sprite.Group()
+HEAL_BONUS_GROUP = pygame.sprite.Group()
+SHIELD_BONUS_GROUP = pygame.sprite.Group()
 TANK_GROUP = pygame.sprite.Group()
+ENEMY_TANK_GROUP = pygame.sprite.Group()
 
 field = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],

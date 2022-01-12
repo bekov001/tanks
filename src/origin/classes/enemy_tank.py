@@ -13,6 +13,7 @@ class EnemyTank(Tank):
     """Вражеский танк"""
     def __init__(self, x, y, enemy):
         super().__init__(x, y)
+        self.add(ENEMY_TANK_GROUP)
         self.image = pygame.transform.scale(load_image("enemy_tank.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.current_angle = 0
@@ -20,7 +21,7 @@ class EnemyTank(Tank):
         self.do_strike = 0
 
     def strike(self):
-        Strike(self.rect.center, self.enemy.rect.center)
+        Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
 
 
     def get_muzzle(self):

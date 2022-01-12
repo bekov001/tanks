@@ -3,7 +3,6 @@ import pygame
 import random
 from itertools import product
 
-from .tank import Tank
 from .iron import Iron
 import pygame
 import random
@@ -14,9 +13,10 @@ from ..helpers.variables import *
 
 class Strike(pygame.sprite.Sprite):
     """Класс выстрела"""
-    def __init__(self, pos, mouse_pos):
+    def __init__(self, pos, mouse_pos, sender):
         super().__init__(ALL_SPRITES)
         radius = 10
+        self.address = sender
         self.destination = mouse_pos
         self.pos = pos
         self.add(STRIKE_GROUP)
@@ -31,15 +31,20 @@ class Strike(pygame.sprite.Sprite):
                        self.destination[1] - self.pos[1])
         self.hypotenuse = (self.vector[0] ** 2 + self.vector[1] ** 2) ** 0.5
         self.collision = False
-        print(self.vector)
+        self.damage = 20
 
     def check_collision(self):
-        if pygame.sprite.spritecollideany(self, ALL_SPRITES):
-            self.collision = True
+        for group in [TEXTURE_GROUP, self.address]:
+            if pygame.sprite.spritecollideany(self, group):
+                self.collision = True
 
     def update(self, *args):
-        self.vx = round((self.vector[0] * 10) / self.hypotenuse)
-        self.vy = round((self.vector[1] * 10) / self.hypotenuse)
+        try:
+            self.vx = round((self.vector[0] * 10) / self.hypotenuse)
+            self.vy = round((self.vector[1] * 10) / self.hypotenuse)
+        except ZeroDivisionError:
+            self.vx = 0
+            self.vy = 0
         # if self.destination[0] < self.pos[0]:
         #     self.vx = -1 * self.vx
         # if self.destination[1] < self.pos[1]:
@@ -49,5 +54,6 @@ class Strike(pygame.sprite.Sprite):
         self.rect = self.rect.move(self.vx, self.vy)
         if self.collision:
             self.kill()
+            self.collision = False
 
 

@@ -1,6 +1,6 @@
 import pygame
 
-from ..helpers.variables import TEXTURE_GROUP, ALL_SPRITES, CELL_SIZE
+from ..helpers.variables import *
 
 
 class Texture(pygame.sprite.Sprite):
@@ -13,3 +13,9 @@ class Texture(pygame.sprite.Sprite):
         self.rect = pygame.Rect(*pos, CELL_SIZE, CELL_SIZE)
         self.board = board
         self.pos = pos
+        self.hit = False
+
+    def check_collision(self):
+        if pygame.sprite.spritecollideany(self, STRIKE_GROUP):
+            self.hit = True
+

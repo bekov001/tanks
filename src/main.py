@@ -14,7 +14,7 @@ def main():
     active = True
     running = True
     timing = time.time()
-    shoot_timing = time.time()
+    step_timing = time.time()
     seconds = 0.1
     player = PlayerTank(60, 60)
     enemy = EnemyTank(885, 775, player)
@@ -25,13 +25,15 @@ def main():
                 running = False
             player.update(event, board)
         if active:
-            if time.time() - shoot_timing > 0.3:
+            if time.time() - step_timing > 0.3:
                 enemy.update(board)
-                shoot_timing = time.time()
+                step_timing = time.time()
             if time.time() - timing > seconds:
                 timing = time.time()
                 screen.fill("black")
                 ALL_SPRITES.draw(screen)
+                for sprite in ALL_SPRITES.sprites():
+                    sprite.check_collision()
                 ALL_SPRITES.update()
         pygame.display.flip()
 

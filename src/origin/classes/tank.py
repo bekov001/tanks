@@ -1,16 +1,17 @@
 import pygame
 import random
 
-from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, TANK_GROUP, BONUS_GROUP, STRIKE_GROUP
+from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, \
+    TANK_GROUP, STRIKE_GROUP, HEAL_BONUS_GROUP
 from ..helpers.func import load_image
 from .heal_bonus import Heal
+from origin.classes.strike import Strike
 
 
 class Tank(pygame.sprite.Sprite):
     """Базовый танк класс"""
     def __init__(self, x, y):
         super().__init__(ALL_SPRITES)
-        self.add(TANK_GROUP)
         self.health = 100
         self.heal = False
         self.hit = False
@@ -24,12 +25,15 @@ class Tank(pygame.sprite.Sprite):
     def check_collision(self):
         if pygame.sprite.spritecollideany(self, STRIKE_GROUP):
             self.hit = True
-        if pygame.sprite.spritecollideany(self, Heal):
+        if pygame.sprite.spritecollideany(self, HEAL_BONUS_GROUP):
             self.heal = True
-            print('heal')
+
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)
         if pygame.sprite.spritecollideany(self, TEXTURE_GROUP):
             self.vy = -self.vy
             self.vx = -self.vx
+        if self.hit:
+            self.health -= Strike.damage
+

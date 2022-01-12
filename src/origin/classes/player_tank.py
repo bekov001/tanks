@@ -12,6 +12,7 @@ from .tank import Tank
 class PlayerTank(Tank):
     def __init__(self, x, y):
         super().__init__(x, y)
+        self.add(TANK_GROUP)
         self.image = pygame.transform.scale(load_image("player_tank.png"),
                                             (CELL_SIZE, CELL_SIZE))
 
@@ -20,7 +21,7 @@ class PlayerTank(Tank):
     def strike(self, event):
         """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN:
-            Strike(self.rect.center, event.pos)
+            Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP)
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
