@@ -4,6 +4,7 @@ import random
 from itertools import product
 
 from .tank import Tank
+from .iron import Iron
 import pygame
 import random
 
@@ -29,7 +30,12 @@ class Strike(pygame.sprite.Sprite):
         self.vector = (self.destination[0] - self.pos[0],
                        self.destination[1] - self.pos[1])
         self.hypotenuse = (self.vector[0] ** 2 + self.vector[1] ** 2) ** 0.5
+        self.collision = False
         print(self.vector)
+
+    def check_collision(self):
+        if pygame.sprite.spritecollideany(self, ALL_SPRITES):
+            self.collision = True
 
     def update(self, *args):
         self.vx = round((self.vector[0] * 10) / self.hypotenuse)
@@ -41,3 +47,7 @@ class Strike(pygame.sprite.Sprite):
         # if pygame.sprite.spritecollideany(self, TEXTURE_GROUP):
         #     self.kill()
         self.rect = self.rect.move(self.vx, self.vy)
+        if self.collision:
+            self.kill()
+
+

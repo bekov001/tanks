@@ -4,6 +4,7 @@ import pygame
 
 from origin.classes.player_tank import PlayerTank
 from origin.classes.tank import Tank
+from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import N, SIZE, ALL_SPRITES
 
@@ -13,8 +14,10 @@ def main():
     active = True
     running = True
     timing = time.time()
+    shoot_timing = time.time()
     seconds = 0.1
     player = PlayerTank(60, 60)
+    enemy = EnemyTank(885, 775, player)
     board.render(screen)
     while running:
         for event in pygame.event.get():
@@ -22,16 +25,20 @@ def main():
                 running = False
             player.update(event, board)
         if active:
+            if time.time() - shoot_timing > 0.2:
+                enemy.update(board)
+                shoot_timing = time.time()
             if time.time() - timing > seconds:
                 timing = time.time()
                 screen.fill("black")
                 ALL_SPRITES.draw(screen)
                 ALL_SPRITES.update()
-            pygame.display.flip()
+        pygame.display.flip()
 
 
 cell_size = 55
 print(cell_size)
+print(pygame.K_DOWN)
 screen = pygame.display.set_mode(SIZE)
 fps = 120
 clock = pygame.time.Clock()
