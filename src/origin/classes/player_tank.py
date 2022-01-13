@@ -17,6 +17,7 @@ class PlayerTank(Tank):
                                             (CELL_SIZE, CELL_SIZE))
 
         self.current_angle = 0
+        self.xp = 100
 
     def strike(self, event):
         """Функция выстрела"""

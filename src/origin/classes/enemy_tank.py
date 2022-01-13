@@ -19,6 +19,7 @@ class EnemyTank(Tank):
         self.current_angle = 0
         self.enemy = enemy
         self.do_strike = 0
+        self.xp = 100
 
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
