@@ -1,12 +1,17 @@
 import time
 
 import pygame
+import pygame_gui as gui
 
+from classes.exit import start_screen
+from helpers import load_image
 from origin.classes.player_tank import PlayerTank
 from origin.classes.tank import Tank
 from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import *
+
+
 
 
 def main():
@@ -19,11 +24,26 @@ def main():
     player = PlayerTank(60, 60)
     enemy = EnemyTank(885, 775, player)
     board.render(screen)
+    manager = gui.UIManager(SIZE)
+    hello_button = gui.elements.UIButton(
+        relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
+        text='SETTINGS',
+        manager=manager)
+    clock = pygame.time.Clock()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            player.update(event, board)
+
+            if event.type == gui.UI_BUTTON_PRESSED:
+                if event.ui_element == hello_button:
+                    print('Hello World!')
+                    start_screen()
+                    active = False
+            if active:
+                player.update(event, board)
+            manager.process_events(event)
+
         if active:
             if time.time() - step_timing > 0.3:
                 enemy.update(board)
@@ -35,6 +55,9 @@ def main():
                 for sprite in ALL_SPRITES.sprites():
                     sprite.check_collision()
                 ALL_SPRITES.update()
+
+        manager.update(fps)
+        manager.draw_ui(screen)
         pygame.display.flip()
 
 
