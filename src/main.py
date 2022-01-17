@@ -1,10 +1,11 @@
 import time
 
 import pygame
+import sys
 import pygame_gui as gui
 
-from classes.exit import start_screen
-from helpers import load_image
+from origin.classes.exit import start_screen
+from origin.helpers.func import load_image
 from origin.classes.player_tank import PlayerTank
 from origin.classes.tank import Tank
 from origin.classes.enemy_tank import EnemyTank
@@ -42,6 +43,9 @@ class Menu:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if index == 0:
+                        main()
 
 
 
@@ -95,6 +99,7 @@ def main():
 cell_size = 55
 print(cell_size)
 screen = pygame.display.set_mode(SIZE)
+surface = pygame.Surface(SIZE)
 fps = 120
 clock = pygame.time.Clock()
 board = Field(N - 2, N)

@@ -1,6 +1,7 @@
 import pygame
 import pygame_gui as gui
-from helpers import load_image, WIDTH, SIZE, FPS
+from ..helpers.func import load_image
+from ..helpers.variables import WIDTH, SIZE, FPS
 
 
 def start_screen():
