@@ -49,8 +49,8 @@ class Strike(pygame.sprite.Sprite):
         #     self.vx = -1 * self.vx
         # if self.destination[1] < self.pos[1]:
         #     self.vy = -1 * self.vy
-        # if pygame.sprite.spritecollideany(self, TEXTURE_GROUP):
-        #     self.kill()
+        if pygame.sprite.spritecollideany(self, TEXTURE_GROUP):
+            self.kill()
         self.rect = self.rect.move(self.vx, self.vy)
         if self.collision:
             self.kill()

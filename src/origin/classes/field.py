@@ -1,6 +1,7 @@
 import pygame
 
 from .brick import Brick
+from .iron import Iron
 from .tank import Tank
 from .texture import Texture
 from ..helpers.variables import *
@@ -37,21 +38,16 @@ class Field:
 
     def render(self, screen):
         """Функция прорисовки поля"""
-        # image = load_image("player_tank.png")
-        # image1 = pygame.transform.scale(image, (55, 55))
-        # screen.blit(image1, (5, 5))
-        #
-        # image = load_image("enemy_tank.png")
-        # image1 = pygame.transform.scale(image, (55, 55))
-        # screen.blit(image1, (55, 55))
 
         for index, lst in enumerate(self.board):
             for j, el in enumerate(lst):
                 start_pos = (self.left + index * self.cell_size,
                              self.top + j * self.cell_size)
-                if el != 0:
+                if el == BRICK:
                     # TODO рисование блоков
                     Brick(start_pos, self)
+                elif el == IRON:
+                    Iron(start_pos, self)
 
     def pos_in_board(self, x, y):
         """Функция проверки координат на нахождении в поле"""
