@@ -41,3 +41,7 @@ DATA = zip(
             (-90, 90, 180, 0),
             ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
             [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
+
+PARAMETERS = [(120, 140, 'Start', (255, 255, 255), (89, 118, 10), 0),
+              (120, 210, 'Settings', (255, 255, 255), (89, 118, 10), 1),
+              (120, 280, 'Quit', (255, 255, 255), (89, 118, 10), 2)]

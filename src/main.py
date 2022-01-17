@@ -1,12 +1,45 @@
 import time
 
-import pygame
+import pygame, sys
 
 from origin.classes.player_tank import PlayerTank
 from origin.classes.tank import Tank
 from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import *
+
+
+class Menu:
+    def __init__(self, parameters=None):
+        if parameters is None:
+            parameters = [
+                (120, 140, 'Start', (125, 0, 255), (255, 255, 255), 0)]
+        self.parameters = parameters
+
+    def render(self, surf, font, index):
+        for i in self.parameters:
+            if index == i[-1]:
+                surf.blit(font.render(i[2], 1, i[4]), (i[0], i[1]))
+            else:
+                surf.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
+
+    def menu(self):
+        done = True
+        font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
+        index = 0
+        while done:
+            surface.fill((231, 247, 151))
+            pos = pygame.mouse.get_pos()
+            for i in self.parameters:
+                if i[0] < pos[0] < i[0] + 155 and i[1] < pos[1] < i[1] + 50:
+                    index = i[-1]
+            self.render(surface, font_menu, index)
+            screen.blit(surface, (0, 0))
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
 
 
 def main():
@@ -41,6 +74,7 @@ def main():
 cell_size = 55
 print(cell_size)
 screen = pygame.display.set_mode(SIZE)
+surface = pygame.Surface(SIZE)
 fps = 120
 clock = pygame.time.Clock()
 board = Field(N - 2, N)
@@ -50,7 +84,8 @@ board.render(screen)
 
 if __name__ == '__main__':
     pygame.init()
-    pygame.display.set_caption('Движущийся круг 2')
-    main()
-    print(board.board)
+    pygame.display.set_caption('Tanks')
+    menu = Menu(PARAMETERS)
+    menu.menu()
+    # main()
     pygame.quit()
