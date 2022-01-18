@@ -19,6 +19,8 @@ class Menu:
             parameters = [
                 (120, 140, 'Start', (125, 0, 255), (255, 255, 255), 0)]
         self.parameters = parameters
+        self.image = load_image('project_name.png')
+        self.image = pygame.transform.scale(self.image, (700, 100))
 
     def render(self, surf, font, index):
         for i in self.parameters:
@@ -29,16 +31,18 @@ class Menu:
 
     def menu(self):
         done = True
-        font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
+        font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         index = 0
         while done:
-            surface.fill((231, 247, 151))
+            surface.fill((16, 164, 149))
             pos = pygame.mouse.get_pos()
             for i in self.parameters:
                 if i[0] < pos[0] < i[0] + 155 and i[1] < pos[1] < i[1] + 50:
                     index = i[-1]
             self.render(surface, font_menu, index)
+            surface.blit(self.image, (150, 50))
             screen.blit(surface, (0, 0))
+            # pygame.draw.line(screen, (255, 0, 0), (500, 0), (500, 890))
             pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -46,11 +50,13 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if index == 0:
                         main()
+                    elif index == 2:
+                        sys.exit()
 
 
 
 def main():
-    """Главная функция запуска"""
+    """Главная функция игры"""
     active = True
     running = True
     timing = time.time()
