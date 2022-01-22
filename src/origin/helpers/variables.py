@@ -45,3 +45,6 @@ DATA = zip(
 PARAMETERS = [(410, 310, 'Start', (255, 255, 255), (89, 118, 10), 0),
               (350, 430, 'Settings', (255, 255, 255), (89, 118, 10), 1),
               (420, 550, 'Quit', (255, 255, 255), (89, 118, 10), 2)]
+
+SCREEN = pygame.display.set_mode(SIZE)
+SURFACE = pygame.Surface(SIZE)
