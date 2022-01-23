@@ -16,9 +16,9 @@ class Field:
         self.board = field
 
         # значения по умолчанию
-        self.left = 10
-        self.top = 10
-        self.cell_size = 30
+        self.left = 5
+        self.top = 5
+        self.cell_size = CELL_SIZE
 
     def set_empty(self, pos: tuple):
         """Делает данную клетку пустой"""
