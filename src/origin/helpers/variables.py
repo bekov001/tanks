@@ -48,3 +48,12 @@ PARAMETERS = [(410, 310, 'Start', (255, 255, 255), (89, 118, 10), 0),
 
 SCREEN = pygame.display.set_mode(SIZE)
 SURFACE = pygame.Surface(SIZE)
+
+IRON_BLOCK = "#"
+BRICK_BLOCK = "$"
+EMPTY_BLOCK = " "
+ENEMY = "%"
+PLAYER = "@"
+CLOCK = pygame.time.Clock()
+# test = [["#" if i == 2 else "$" if i == 1 else " " for i in el] for el in field]
+# print("\n".join(["".join(el) for el in test]))

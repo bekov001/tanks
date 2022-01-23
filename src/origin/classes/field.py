@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 from .brick import Brick
@@ -19,6 +21,17 @@ class Field:
         self.left = 5
         self.top = 5
         self.cell_size = CELL_SIZE
+
+    def load_level(self, filename):
+        file = open(os.path.join("origin", "media", 'data', filename), encoding="utf8")
+        for index, el in enumerate(file.read().split("\n")):
+            for i, letter in enumerate(el):
+                if letter == IRON_BLOCK:
+                    self.board[index][i] = IRON
+                elif letter == BRICK_BLOCK:
+                    self.board[index][i] = BRICK
+                else:
+                    self.board[index][i] = EMPTY
 
     def set_empty(self, pos: tuple):
         """Делает данную клетку пустой"""
@@ -62,13 +75,13 @@ class Field:
                     y - self.top) // self.cell_size
         return (-1, -1)
 
-    def get_click(self, mouse_pos):
-        """Принимает координаты нажатия"""
-        cell = self.get_cell(mouse_pos)
-        if cell is not None:
-            self.on_click(cell)
-            self.move = not self.move
-
-    def on_click(self, cell):
-        """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
-        self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2
+    # def get_click(self, mouse_pos):
+    #     """Принимает координаты нажатия"""
+    #     cell = self.get_cell(mouse_pos)
+    #     if cell is not None:
+    #         self.on_click(cell)
+    #         self.move = not self.move
+    #
+    # def on_click(self, cell):
+    #     """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
+    #     self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2

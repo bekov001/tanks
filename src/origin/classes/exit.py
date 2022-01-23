@@ -46,61 +46,56 @@
 
 import pygame
 import pygame_gui as gui
-
-from .menu import Menu
-from ..helpers.func import load_image
-from ..helpers.variables import WIDTH, SIZE, FPS, PARAMETERS
+from src.origin.helpers.variables import WIDTH, SIZE, FPS, PARAMETERS, SCREEN, \
+    CLOCK
 
 
-def start_screen():
-    intro_text = ["ЗАСТАВКА", "",
-                  "Правила игры",
-                  "Если в правилах несколько строк,",
-                  "приходится выводить их построчно"]
-    fon = pygame.Surface((WIDTH, WIDTH))
-    fon.fill("red")
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
+class Settings:
+    def __init__(self):
+        self.manager = gui.UIManager(SIZE)
+        self.exit_button = gui.elements.UIButton(
+            relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
+            text='ВЫЙТИ',
+            manager=self.manager)
+        self.return_btn = gui.elements.UIButton(
+            relative_rect=pygame.Rect((WIDTH - 205, 5), (90, 50)),
+            text='ВЕРНУТЬСЯ',
+            manager=self.manager)
 
-    manager = gui.UIManager(SIZE)
-    exit_button = gui.elements.UIButton(
-        relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
-        text='ВЫЙТИ',
-        manager=manager)
-    return_btn = gui.elements.UIButton(
-        relative_rect=pygame.Rect((WIDTH - 205, 5), (90, 50)),
-        text='ВЕРНУТЬСЯ',
-        manager=manager)
+    def start_screen(self):
+        intro_text = ["ЗАСТАВКА", "",
+                      "Правила игры",
+                      "Если в правилах несколько строк,",
+                      "приходится выводить их построчно"]
+        fon = pygame.Surface((WIDTH, WIDTH))
+        fon.fill("red")
+        SCREEN.blit(fon, (0, 0))
+        font = pygame.font.Font(None, 30)
+        text_coord = 50
 
-    for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('white'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
+        for line in intro_text:
+            string_rendered = font.render(line, 1, pygame.Color('white'))
+            intro_rect = string_rendered.get_rect()
+            text_coord += 10
+            intro_rect.top = text_coord
+            intro_rect.x = 10
+            text_coord += intro_rect.height
+            SCREEN.blit(string_rendered, intro_rect)
 
-    while True:
-        time_delta = clock.tick(60) / 1000.0
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-
-            if event.type == gui.UI_BUTTON_PRESSED:
-                if event.ui_element == return_btn:
-                    return 0
-                if event.ui_element == exit_button:
-                    return "EXIT"
-            # elif event.type == pygame.KEYDOWN or \
-            #         event.type == pygame.MOUSEBUTTONDOWN:
-            #     pass
-            manager.process_events(event)
-        manager.update(time_delta)
-        manager.draw_ui(screen)
-        pygame.display.flip()
-
-
-screen = pygame.display.set_mode(SIZE)
-clock = pygame.time.Clock()
+        while True:
+            time_delta = CLOCK.tick(60) / 1000.0
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return "CLOSE"
+                if event.type == gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == self.return_btn:
+                        return 0
+                    if event.ui_element == self.exit_button:
+                        return "EXIT"
+                # elif event.type == pygame.KEYDOWN or \
+                #         event.type == pygame.MOUSEBUTTONDOWN:
+                #     pass
+                self.manager.process_events(event)
+            self.manager.update(time_delta)
+            self.manager.draw_ui(SCREEN)
+            pygame.display.flip()

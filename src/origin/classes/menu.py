@@ -44,4 +44,4 @@ class Menu:
                         # self.func()
                         return 0
                     elif index == 2:
-                        print(2)
+                        exit()

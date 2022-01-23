@@ -2,11 +2,9 @@ from itertools import product
 import pygame
 import random
 
-from origin.helpers.func import load_image
-from origin.helpers.variables import *
-
 from .strike import Strike
 from .tank import Tank
+from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image
 
 
 class PlayerTank(Tank):
