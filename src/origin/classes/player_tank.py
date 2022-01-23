@@ -1,4 +1,5 @@
 from itertools import product
+import time
 import pygame
 import random
 
@@ -17,12 +18,14 @@ class PlayerTank(Tank):
                                             (CELL_SIZE, CELL_SIZE))
 
         self.current_angle = 0
-        self.xp = 100
+        self.created = time.time()
 
     def strike(self, event):
         """Функция выстрела"""
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN \
+                and time.time() - self.created > 1:
             Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP)
+            self.created = time.time()
 
     def get_muzzle(self):
         """Функция для получения дула танка"""

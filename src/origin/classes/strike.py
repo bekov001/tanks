@@ -12,6 +12,7 @@ from ..helpers.variables import *
 
 
 class Strike(pygame.sprite.Sprite):
+    damage = 20
     """Класс выстрела"""
     def __init__(self, pos, mouse_pos, sender):
         super().__init__(ALL_SPRITES)
@@ -31,12 +32,21 @@ class Strike(pygame.sprite.Sprite):
                        self.destination[1] - self.pos[1])
         self.hypotenuse = (self.vector[0] ** 2 + self.vector[1] ** 2) ** 0.5
         self.collision = False
-        self.damage = 20
 
     def check_collision(self):
         for group in [TEXTURE_GROUP, self.address]:
             if pygame.sprite.spritecollideany(self, group):
                 self.collision = True
+                if self.address == ENEMY_TANK_GROUP:
+                    for tank in self.address:
+                        if tank.rect.x - 20 < self.rect.x\
+                                < tank.rect.x + tank.rect.width and \
+                                tank.rect.y - 20 < self.rect.y \
+                                < tank.rect.y + tank.rect.height:
+                            tank.health -= self.damage
+                else:
+                    for tank in self.address:
+                        tank.health -= self.damage
 
     def update(self, *args):
         try:

@@ -48,10 +48,25 @@ class Menu:
                 if event.type == pygame.QUIT:
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if index == 0:
-                        main()
-                    elif index == 2:
-                        sys.exit()
+                    mouse_presses = pygame.mouse.get_pressed()
+                    if mouse_presses[0]:
+                        if index == 0:
+                            main()
+                        elif index == 2:
+                            sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        if index > 0:
+                            index -= 1
+                    if event.key == pygame.K_DOWN:
+                        if index < len(self.parameters) - 1:
+                            index += 1
+                    if event.key == pygame.K_RETURN:
+                        if index == 0:
+                            main()
+                        elif index == 2:
+                            sys.exit()
+
 
 
 
@@ -87,7 +102,8 @@ def main():
 
         if active:
             if time.time() - step_timing > 0.3:
-                enemy.update(board)
+                for enemy in ENEMY_TANK_GROUP:
+                    enemy.update(board)
                 step_timing = time.time()
             if time.time() - timing > seconds:
                 timing = time.time()
