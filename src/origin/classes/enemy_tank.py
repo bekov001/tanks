@@ -19,7 +19,6 @@ class EnemyTank(Tank):
         self.current_angle = 0
         self.enemy = enemy
         self.do_strike = 0
-        self.xp = 100
 
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
@@ -84,6 +83,8 @@ class EnemyTank(Tank):
             (-90, 90, 180, 0),
             ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
             [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
+        if not self.health:
+            self.kill()
 
         if args:
             board = args[0]

@@ -14,9 +14,11 @@ class Brick(Texture):
                                             (CELL_SIZE, CELL_SIZE))
         self.hp = 3
 
-    def update(self, *args):
-        if self.hit:
+    def check_collision(self):
+        if pygame.sprite.spritecollideany(self, STRIKE_GROUP):
             self.hp -= 1
-            if not self.hp:
-                self.board.set_empty(self.pos)
-                self.kill()
+
+    def update(self, *args):
+        if not self.hp:
+            self.board.set_empty(self.pos)
+            self.kill()
