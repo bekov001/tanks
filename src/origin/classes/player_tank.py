@@ -5,7 +5,8 @@ import random
 
 from .strike import Strike
 from .tank import Tank
-from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image
+from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image, \
+    SCREEN
 
 
 class PlayerTank(Tank):
@@ -17,6 +18,7 @@ class PlayerTank(Tank):
 
         self.current_angle = 0
         self.created = time.time()
+        self.health = 100
 
     def strike(self, event):
         """Функция выстрела"""
@@ -32,6 +34,11 @@ class PlayerTank(Tank):
     def get_position(self):
         return self.rect.center
 
+    def show_xp(self):
+        xp = self.health / 100
+        pygame.draw.rect(SCREEN, "green", (10, 10, 200 * xp, 10))
+        pygame.draw.rect(SCREEN, "red", (200 * xp, 10, 200 - 200 * xp, 10))
+
     def update(self, *args):
         data = zip((-90, 90, 180, 0), ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)), [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
 
@@ -44,3 +51,4 @@ class PlayerTank(Tank):
                     self.current_angle = angle
         if args:
             self.strike(args[0])
+        self.show_xp()

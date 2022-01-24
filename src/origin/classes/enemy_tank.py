@@ -23,6 +23,13 @@ class EnemyTank(Tank):
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
 
+    def show_xp(self):
+        xp = self.health / 100
+        pygame.draw.rect(SCREEN, "green", (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
+        pygame.draw.rect(SCREEN, "red",
+                         (self.rect.x + CELL_SIZE * xp, self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
+        # pygame.draw.rect(SCREEN, "red", (200 * xp, 10, 200 - 200 * xp, 10))
+        # print(self.health)
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
@@ -106,6 +113,8 @@ class EnemyTank(Tank):
             if self.do_strike == 7:
                 self.strike()
                 self.do_strike = 0
+
+        self.show_xp()
 
 
 
