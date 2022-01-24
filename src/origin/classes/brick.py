@@ -1,9 +1,7 @@
 import pygame as pg
 
-from origin.helpers.func import load_image
-from origin.helpers.variables import *
-
 from .texture import Texture
+from ..helpers import CELL_SIZE, SCREEN, STRIKE_GROUP, load_image
 
 
 class Brick(Texture):
@@ -15,13 +13,13 @@ class Brick(Texture):
         self.hp = 3
 
     def check_collision(self):
-        if pygame.sprite.spritecollideany(self, STRIKE_GROUP):
+        if pg.sprite.spritecollideany(self, STRIKE_GROUP):
             self.hp -= 1
 
     def show_xp(self):
         xp = self.hp / 3
-        pygame.draw.rect(SCREEN, "green", (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
-        pygame.draw.rect(SCREEN, "red",
+        pg.draw.rect(SCREEN, "green", (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
+        pg.draw.rect(SCREEN, "red",
                          (self.rect.x + CELL_SIZE * xp, self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
 
     def update(self, *args):

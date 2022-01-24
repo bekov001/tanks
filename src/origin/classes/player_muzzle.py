@@ -2,16 +2,16 @@ import pygame
 import math
 
 from ..helpers.func import load_image
-from ..helpers.variables import ALL_SPRITES
+from ..helpers.variables import ALL_SPRITES, CELL_SIZE
 
 
 class Muzzle(pygame.sprite.Sprite):
     def __init__(self, filename, x, y):
         super(Muzzle, self).__init__(ALL_SPRITES)
         self.image = pygame.transform.scale(load_image(filename),
-                                            (55, 55))
+                                            (CELL_SIZE, CELL_SIZE))
         self.copy = pygame.transform.scale(load_image(filename),
-                                            (55, 55))
+                                            (CELL_SIZE, CELL_SIZE))
         self.rect = self.image.get_rect(topleft=(x, y))
     
     def get_muzzle(self, pos, mouse_pos):
@@ -42,7 +42,7 @@ class Muzzle(pygame.sprite.Sprite):
                 angle = 0
             elif mouse[1] < pos[1]:
                 angle = 180
-        self.image = pygame.transform.rotate(self.copy, angle)
+        self.image = pygame.transform.rotozoom(self.copy, angle, 1)
         self.rect = self.image.get_rect(center=pos)
     
     def check_collision(self):

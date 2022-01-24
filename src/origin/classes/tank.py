@@ -1,12 +1,10 @@
 import pygame
 import random
 
+from .texture_pack.bonus import Heal
 from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, \
     TANK_GROUP, STRIKE_GROUP, HEAL_BONUS_GROUP
 from ..helpers.func import load_image
-from .heal_bonus import Heal
-from origin.classes.strike import Strike
-from origin.classes.heal_bonus import Heal
 
 
 class Tank(pygame.sprite.Sprite):
@@ -23,6 +21,7 @@ class Tank(pygame.sprite.Sprite):
 
     def check_collision(self):
         if pygame.sprite.spritecollideany(self, HEAL_BONUS_GROUP):
+            print("H")
             self.health += Heal.heal_points
 
     def update(self):

@@ -8,6 +8,7 @@ from origin.classes.field import Field
 from origin.helpers.variables import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
+from src.origin.classes.texture_pack.bonus import Heal
 
 
 class Game:
@@ -31,15 +32,18 @@ class Game:
         """Главная функция игры"""
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
+        Heal((60, 60), self.board)
         self.player = PlayerTank(60, 60)
         self.enemy = EnemyTank(885, 775, self.player)
         self.enemy = EnemyTank(885, 775, self.player)
+        # heal = Heal((160, 60), self.board)
         running = True
         timing = time.time()
         step_timing = time.time()
         seconds = 0.1
 
         while running:
+            start = time.monotonic()
             time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

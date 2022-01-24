@@ -9,6 +9,6 @@ def load_image(name, colorkey=None):
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
+        raise FileNotFoundError
     image = pygame.image.load(fullname)
     return image

@@ -62,6 +62,26 @@ class Settings:
             text='ВЕРНУТЬСЯ',
             manager=self.manager)
 
+    def game_over(self):
+        intro_text = ["ЗАСТАВКА", "",
+                      "Правила игры",
+                      "Если в правилах несколько строк,",
+                      "приходится выводить их построчно"]
+        fon = pygame.Surface((WIDTH, WIDTH))
+        fon.fill("red")
+        SCREEN.blit(fon, (0, 0))
+        font = pygame.font.Font(None, 30)
+        text_coord = 50
+
+        for line in intro_text:
+            string_rendered = font.render(line, 1, pygame.Color('white'))
+            intro_rect = string_rendered.get_rect()
+            text_coord += 10
+            intro_rect.top = text_coord
+            intro_rect.x = 10
+            text_coord += intro_rect.height
+            SCREEN.blit(string_rendered, intro_rect)
+
     def start_screen(self):
         intro_text = ["ЗАСТАВКА", "",
                       "Правила игры",

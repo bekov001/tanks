@@ -32,6 +32,7 @@ class Strike(pygame.sprite.Sprite):
                        self.destination[1] - self.pos[1])
         self.hypotenuse = (self.vector[0] ** 2 + self.vector[1] ** 2) ** 0.5
         self.collision = False
+        self.speed = 30
 
     def check_collision(self):
         for group in [TEXTURE_GROUP, self.address]:
@@ -50,8 +51,8 @@ class Strike(pygame.sprite.Sprite):
 
     def update(self, *args):
         try:
-            self.vx = round((self.vector[0] * 10) / self.hypotenuse)
-            self.vy = round((self.vector[1] * 10) / self.hypotenuse)
+            self.vx = round((self.vector[0] * self.speed) / self.hypotenuse)
+            self.vy = round((self.vector[1] * self.speed) / self.hypotenuse)
         except ZeroDivisionError:
             self.vx = 0
             self.vy = 0

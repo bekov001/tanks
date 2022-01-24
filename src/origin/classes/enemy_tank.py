@@ -15,11 +15,11 @@ class EnemyTank(Tank):
     def __init__(self, x, y, enemy):
         super().__init__(x, y)
         self.add(ENEMY_TANK_GROUP)
-        self.image = pygame.transform.scale(load_image("enemy_tank.png"),
+        self.image = pygame.transform.scale(load_image("enemy_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.current_angle = 0
         self.enemy = enemy
-        self.muzzle = Muzzle('enemy_muzzle.png', x, y)
+        self.muzzle = Muzzle('muzzle/enemy_muzzle.png', x, y)
         self.do_strike = 0
 
     def strike(self):
