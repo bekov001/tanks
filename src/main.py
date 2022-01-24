@@ -33,6 +33,7 @@ class Game:
         self.board.render(SCREEN)
         self.player = PlayerTank(60, 60)
         self.enemy = EnemyTank(885, 775, self.player)
+        self.enemy = EnemyTank(885, 775, self.player)
         running = True
         timing = time.time()
         step_timing = time.time()
@@ -59,7 +60,7 @@ class Game:
                 self.manager.process_events(event)
 
             if time.time() - step_timing > 0.3:
-                self.enemy.update(self.board)
+                ENEMY_TANK_GROUP.update(self.board)
                 step_timing = time.time()
             if time.time() - timing > seconds:
                 timing = time.time()

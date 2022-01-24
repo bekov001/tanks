@@ -86,35 +86,38 @@ class EnemyTank(Tank):
     #     return random.choice(available_directions)
 
     def update(self, *args):
-        data = zip(
-            (-90, 90, 180, 0),
-            ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
-            [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
-        if not self.health:
+        if self.health > 0:
+            data = zip(
+                (-90, 90, 180, 0),
+                ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
+                [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
+            if not self.health:
+                self.kill()
+
+            if args:
+                board = args[0]
+                enemy_pos = self.enemy.get_position()
+                # available = []
+                # for angle, move, direction in data:
+                #     if board.is_empty(board.get_cell((self.rect.x + move[0], self.rect.y + move[1]))):
+                #         available.append(direction)
+                chosen = self.generate_direction(enemy_pos)
+                for angle, move, direction in data:
+                    if chosen == direction and board.is_empty(
+                            board.get_cell((self.rect.x + move[0],
+                                            self.rect.y + move[1]))):
+                        self.rect = self.rect.move(*move)
+                        self.image = pygame.transform.rotate(
+                            self.image, self.current_angle - angle)
+                        self.current_angle = angle
+                        self.do_strike += 1
+                if self.do_strike == 7:
+                    self.strike()
+                    self.do_strike = 0
+
+            self.show_xp()
+        else:
             self.kill()
-
-        if args:
-            board = args[0]
-            enemy_pos = self.enemy.get_position()
-            # available = []
-            # for angle, move, direction in data:
-            #     if board.is_empty(board.get_cell((self.rect.x + move[0], self.rect.y + move[1]))):
-            #         available.append(direction)
-            chosen = self.generate_direction(enemy_pos)
-            for angle, move, direction in data:
-                if chosen == direction and board.is_empty(
-                        board.get_cell((self.rect.x + move[0],
-                                        self.rect.y + move[1]))):
-                    self.rect = self.rect.move(*move)
-                    self.image = pygame.transform.rotate(
-                        self.image, self.current_angle - angle)
-                    self.current_angle = angle
-                    self.do_strike += 1
-            if self.do_strike == 7:
-                self.strike()
-                self.do_strike = 0
-
-        self.show_xp()
 
 
 

@@ -23,7 +23,7 @@ class PlayerTank(Tank):
     def strike(self, event):
         """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN \
-                and time.time() - self.created > 1:
+                and time.time() - self.created > 0.9:
             Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP)
             self.created = time.time()
 
