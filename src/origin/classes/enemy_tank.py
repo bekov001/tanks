@@ -25,6 +25,13 @@ class EnemyTank(Tank):
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
 
+    def show_xp(self):
+        xp = self.health / 100
+        pygame.draw.rect(SCREEN, "green", (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
+        pygame.draw.rect(SCREEN, "red",
+                         (self.rect.x + CELL_SIZE * xp, self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
+        # pygame.draw.rect(SCREEN, "red", (200 * xp, 10, 200 - 200 * xp, 10))
+        # print(self.health)
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
@@ -81,36 +88,42 @@ class EnemyTank(Tank):
     #     return random.choice(available_directions)
 
     def update(self, *args):
-        self.muzzle.get_muzzle(self.rect.center, self.enemy.rect.center)
-        data = zip(
-            (-90, 90, 180, 0),
-            ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
-            [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
-        if not self.health:
-            self.kill()
+        if self.health > 0:
+            self.muzzle.get_muzzle(self.rect.center,
+                                   self.enemy.rect.center)
+            data = zip(
+                (-90, 90, 180, 0),
+                ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
+                [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
+            if not self.health:
+                self.kill()
 
-        if args:
-            board = args[0]
-            enemy_pos = self.enemy.get_position()
-            # available = []
-            # for angle, move, direction in data:
-            #     if board.is_empty(board.get_cell((self.rect.x + move[0], self.rect.y + move[1]))):
-            #         available.append(direction)
-            chosen = self.generate_direction(enemy_pos)
-            for angle, move, direction in data:
-                if chosen == direction and board.is_empty(
-                        board.get_cell((self.rect.x + move[0],
-                                        self.rect.y + move[1]))):
-                    self.rect = self.rect.move(*move)
-                    self.image = pygame.transform.rotate(
-                        self.image, self.current_angle - angle)
-                    self.muzzle.get_muzzle(self.rect.center,
-                                           self.enemy.rect.center)
-                    self.current_angle = angle
-                    self.do_strike += 1
-            if self.do_strike == 7 and self.health:
-                self.strike()
-                self.do_strike = 0
+            if args:
+                board = args[0]
+                enemy_pos = self.enemy.get_position()
+                # available = []
+                # for angle, move, direction in data:
+                #     if board.is_empty(board.get_cell((self.rect.x + move[0], self.rect.y + move[1]))):
+                #         available.append(direction)
+                chosen = self.generate_direction(enemy_pos)
+                for angle, move, direction in data:
+                    if chosen == direction and board.is_empty(
+                            board.get_cell((self.rect.x + move[0],
+                                            self.rect.y + move[1]))):
+                        self.rect = self.rect.move(*move)
+                        self.image = pygame.transform.rotate(
+                            self.image, self.current_angle - angle)
+                        self.muzzle.get_muzzle(self.rect.center,
+                                               self.enemy.rect.center)
+                        self.current_angle = angle
+                        self.do_strike += 1
+                if self.do_strike == 7:
+                    self.strike()
+                    self.do_strike = 0
+
+            self.show_xp()
+        else:
+            self.kill()
 
 
 

@@ -37,14 +37,14 @@ class Strike(pygame.sprite.Sprite):
         for group in [TEXTURE_GROUP, self.address]:
             if pygame.sprite.spritecollideany(self, group):
                 self.collision = True
-                if self.address == ENEMY_TANK_GROUP:
+                if self.address == ENEMY_TANK_GROUP and group == ENEMY_TANK_GROUP:
                     for tank in self.address:
                         if tank.rect.x - 20 < self.rect.x\
                                 < tank.rect.x + tank.rect.width and \
                                 tank.rect.y - 20 < self.rect.y \
                                 < tank.rect.y + tank.rect.height:
                             tank.health -= self.damage
-                else:
+                elif self.address == TANK_GROUP and group == TANK_GROUP:
                     for tank in self.address:
                         tank.health -= self.damage
 
