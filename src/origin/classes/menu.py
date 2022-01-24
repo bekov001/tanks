@@ -1,6 +1,6 @@
 import pygame
 
-from src.origin.helpers import load_image, SURFACE, SCREEN
+from origin.helpers import load_image, SURFACE, SCREEN
 
 
 class Menu:

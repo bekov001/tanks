@@ -46,7 +46,7 @@
 
 import pygame
 import pygame_gui as gui
-from src.origin.helpers.variables import WIDTH, SIZE, FPS, PARAMETERS, SCREEN, \
+from origin.helpers.variables import WIDTH, SIZE, FPS, PARAMETERS, SCREEN, \
     CLOCK
 
 

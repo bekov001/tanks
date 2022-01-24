@@ -7,6 +7,7 @@ from ..helpers.func import load_image
 from .strike import Strike
 from .tank import Tank
 from .field import Field
+from .player_muzzle import Muzzle
 
 
 class EnemyTank(Tank):
@@ -18,6 +19,7 @@ class EnemyTank(Tank):
                                             (CELL_SIZE, CELL_SIZE))
         self.current_angle = 0
         self.enemy = enemy
+        self.muzzle = Muzzle('enemy_muzzle.png', x, y)
         self.do_strike = 0
 
     def strike(self):
@@ -79,6 +81,7 @@ class EnemyTank(Tank):
     #     return random.choice(available_directions)
 
     def update(self, *args):
+        self.muzzle.get_muzzle(self.rect.center, self.enemy.rect.center)
         data = zip(
             (-90, 90, 180, 0),
             ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
@@ -101,9 +104,11 @@ class EnemyTank(Tank):
                     self.rect = self.rect.move(*move)
                     self.image = pygame.transform.rotate(
                         self.image, self.current_angle - angle)
+                    self.muzzle.get_muzzle(self.rect.center,
+                                           self.enemy.rect.center)
                     self.current_angle = angle
                     self.do_strike += 1
-            if self.do_strike == 7:
+            if self.do_strike == 7 and self.health:
                 self.strike()
                 self.do_strike = 0
 

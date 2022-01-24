@@ -6,8 +6,8 @@ from origin.classes.player_tank import PlayerTank
 from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import *
-from src.origin.classes.exit import Settings
-from src.origin.classes.menu import Menu
+from origin.classes.exit import Settings
+from origin.classes.menu import Menu
 
 
 class Game:
