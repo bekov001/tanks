@@ -95,8 +95,6 @@ class EnemyTank(Tank):
                 (-90, 90, 180, 0),
                 ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
                 [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
-            if not self.health:
-                self.kill()
 
             if args:
                 board = args[0]
@@ -123,6 +121,7 @@ class EnemyTank(Tank):
 
             self.show_xp()
         else:
+            self.muzzle.kill()
             self.kill()
 
 

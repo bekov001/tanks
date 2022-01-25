@@ -8,7 +8,7 @@ from origin.classes.field import Field
 from origin.helpers.variables import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
-from src.origin.classes.texture_pack.bonus import Heal
+from origin.classes.texture_pack.bonus import Heal
 
 
 class Game:
