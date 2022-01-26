@@ -39,22 +39,32 @@ class PlayerTank(Tank):
         pygame.draw.rect(SCREEN, "red", (200 * xp + 10, 10, 200 - 200 * xp, 10))
 
     def update(self, *args):
-        data = zip((-90, 90, 180, 0), ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)), [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
-        self.muzzle.get_muzzle(self.rect.center, pygame.mouse.get_pos())
-        if args and args[0].type == pygame.KEYDOWN:
-            board = args[1]
-            for angle, move, direction in data:
-                if args[0].key == direction and\
-                        board.is_empty(
-                            board.get_cell(
-                                (self.rect.x + move[0], self.rect.y + move[1])
-                            )
-                        ):
-                    self.rect = self.rect.move(*move)
-                    self.image = pygame.transform.rotate(self.image, self.current_angle - angle)
-                    self.muzzle.get_muzzle(self.rect.center, pygame.mouse.get_pos())
-                    self.current_angle = angle
-                    self.healed = False
-        if args:
-            self.strike(args[0])
-        self.show_xp()
+        if self.health:
+            data = zip((-90, 90, 180, 0), (
+            (CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
+                       [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP,
+                        pygame.K_DOWN])
+            self.muzzle.get_muzzle(self.rect.center, pygame.mouse.get_pos())
+            if args and args[0].type == pygame.KEYDOWN:
+                board = args[1]
+                for angle, move, direction in data:
+                    if args[0].key == direction and \
+                            board.is_empty(
+                                board.get_cell(
+                                    (self.rect.x + move[0],
+                                     self.rect.y + move[1])
+                                )
+                            ):
+                        self.rect = self.rect.move(*move)
+                        self.image = pygame.transform.rotate(self.image,
+                                                             self.current_angle - angle)
+                        self.muzzle.get_muzzle(self.rect.center,
+                                               pygame.mouse.get_pos())
+                        self.current_angle = angle
+                        self.healed = False
+            if args:
+                self.strike(args[0])
+            self.show_xp()
+        else:
+            self.muzzle.kill()
+            self.kill()

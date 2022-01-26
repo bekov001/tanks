@@ -1,6 +1,7 @@
 import pygame
 
-from origin.helpers import load_image, SURFACE, SCREEN
+from origin.helpers.func import load_image
+from origin.helpers.variables import SURFACE, SCREEN
 
 
 class Menu:
@@ -35,7 +36,6 @@ class Menu:
             SURFACE.blit(self.image, (150, 50))
             SCREEN.blit(SURFACE, (0, 0))
             # pygame.draw.line(screen, (255, 0, 0), (500, 0), (500, 890))
-            pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
@@ -45,3 +45,4 @@ class Menu:
                         return 0
                     elif index == 2:
                         exit()
+            pygame.display.flip()
