@@ -18,11 +18,16 @@ class Tank(pygame.sprite.Sprite):
                                 CELL_SIZE)
         self.vx = random.randint(-5, 5)
         self.vy = random.randrange(-5, 5)
+        self.healed = False
 
     def check_collision(self):
         if pygame.sprite.spritecollideany(self, HEAL_BONUS_GROUP):
-            print("H")
-            self.health += Heal.heal_points
+            if not self.healed and self.health < 100:
+                if self.health + Heal.heal_points > 100:
+                    self.health = 100
+                else:
+                    self.health += Heal.heal_points
+                self.healed = True
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)

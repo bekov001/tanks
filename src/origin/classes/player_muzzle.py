@@ -13,6 +13,7 @@ class Muzzle(pygame.sprite.Sprite):
         self.copy = pygame.transform.scale(load_image(filename),
                                             (CELL_SIZE, CELL_SIZE))
         self.rect = self.image.get_rect(topleft=(x, y))
+        self.angle = 0
     
     def get_muzzle(self, pos, mouse_pos):
         """Функция для получения дула танка"""
@@ -20,29 +21,28 @@ class Muzzle(pygame.sprite.Sprite):
         catets = abs(mouse[0] - pos[0]), abs(mouse[1] - pos[1])
         hypotenuse = ((mouse[0] - pos[0]) ** 2 + (
                     mouse[1] - pos[1]) ** 2) ** 0.5
-        angle = 0
         if mouse[0] < pos[0]:
             if mouse[1] < pos[1]:
-                angle = -90 + -math.acos(catets[0] / hypotenuse) * (180 / math.pi)
+                self.angle = -90 + -math.acos(catets[0] / hypotenuse) * (180 / math.pi)
             elif mouse[1] > pos[1]:
-                angle = - math.asin(catets[0] / hypotenuse) * (
+                self.angle = - math.asin(catets[0] / hypotenuse) * (
                             180 / math.pi)
             else:
-                angle = -90
+                self.angle = -90
         elif mouse[0] > pos[0]:
             if mouse[1] < pos[1]:
-                angle = 90 + math.acos(catets[0] / hypotenuse) * (180 / math.pi)
+                self.angle = 90 + math.acos(catets[0] / hypotenuse) * (180 / math.pi)
             elif mouse[1] > pos[1]:
-                angle = math.asin(catets[0] / hypotenuse) * (
+                self.angle = math.asin(catets[0] / hypotenuse) * (
                             180 / math.pi)
             else:
-                angle = 90
+                self.angle = 90
         else:
             if mouse[1] > pos[1]:
-                angle = 0
+                self.angle = 0
             elif mouse[1] < pos[1]:
-                angle = 180
-        self.image = pygame.transform.rotozoom(self.copy, angle, 1)
+                self.angle = 180
+        self.image = pygame.transform.rotozoom(self.copy, self.angle, 1)
         self.rect = self.image.get_rect(center=pos)
     
     def check_collision(self):

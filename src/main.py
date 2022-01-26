@@ -32,7 +32,7 @@ class Game:
         """Главная функция игры"""
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
-        Heal((60, 60), self.board)
+        Heal((170, 60), self.board)
         self.player = PlayerTank(60, 60)
         self.enemy = EnemyTank(885, 775, self.player)
         self.enemy = EnemyTank(885, 775, self.player)
@@ -66,21 +66,31 @@ class Game:
             if time.time() - step_timing > 0.3:
                 ENEMY_TANK_GROUP.update(self.board)
                 step_timing = time.time()
+            for sprite in ALL_SPRITES.sprites():
+                sprite.check_collision()
             if time.time() - timing > seconds:
                 timing = time.time()
                 SCREEN.fill("black")
                 ALL_SPRITES.draw(SCREEN)
-                for sprite in ALL_SPRITES.sprites():
-                    sprite.check_collision()
                 ALL_SPRITES.update()
                 self.manager.update(time_delta)
                 self.manager.draw_ui(SCREEN)
                 pygame.display.flip()
+            if not ENEMY_TANK_GROUP:
+                print('you won')
 
     def stop_game(self):
         """Останавливает игру, уничтожая все элементы"""
         for al in ALL_SPRITES.sprites():
             al.kill()
+
+    def lost(self):
+        running = True
+        while running:
+            pass
+
+    def won(self):
+        pass
 
 
 SCREEN.fill((0, 0, 0))
@@ -92,6 +102,6 @@ if __name__ == '__main__':
     menu = Menu(PARAMETERS)
     settings = Settings()
     while True:
-        menu.menu()
-        game.main()
-    pygame.quit()
+        ans = menu.menu()
+        if not ans:
+            game.main()

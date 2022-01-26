@@ -23,7 +23,7 @@ class EnemyTank(Tank):
         self.do_strike = 0
 
     def strike(self):
-        Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
+        Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP, self.muzzle)
 
     def show_xp(self):
         xp = self.health / 100
@@ -115,7 +115,7 @@ class EnemyTank(Tank):
                                                self.enemy.rect.center)
                         self.current_angle = angle
                         self.do_strike += 1
-                if self.do_strike == 7:
+                if self.do_strike == 5:
                     self.strike()
                     self.do_strike = 0
 
