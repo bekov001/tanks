@@ -23,6 +23,7 @@ class Game:
             relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
             text='SETTINGS',
             manager=self.manager)
+        self.volume = 1
         # self.player = PlayerTank(60, 60)
         # self.enemy = EnemyTank(885, 775, self.player)
 
@@ -30,8 +31,9 @@ class Game:
         """"""
         self.map_name = map_name
 
-    def main(self):
+    def main(self, volume):
         """Главная функция игры"""
+        self.volume = volume
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
         Heal((170, 60), self.board)
@@ -164,5 +166,5 @@ if __name__ == '__main__':
     settings = Settings()
     while True:
         ans = menu.menu()
-        if not ans:
-            game.main()
+        if ans:
+            game.main(ans)
