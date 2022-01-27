@@ -42,13 +42,13 @@ class PlayerTank(Tank):
         if self.health:
             data = zip((-90, 90, 180, 0), (
             (CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
-                       [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP,
-                        pygame.K_DOWN])
+                       [(pygame.K_RIGHT, pygame.K_d), (pygame.K_LEFT, pygame.K_a), (pygame.K_UP, pygame.K_w),
+                        (pygame.K_DOWN, pygame.K_s)])
             self.muzzle.get_muzzle(self.rect.center, pygame.mouse.get_pos())
             if args and args[0].type == pygame.KEYDOWN:
                 board = args[1]
                 for angle, move, direction in data:
-                    if args[0].key == direction and \
+                    if args[0].key in direction and \
                             board.is_empty(
                                 board.get_cell(
                                     (self.rect.x + move[0],
