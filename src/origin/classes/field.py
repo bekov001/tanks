@@ -1,6 +1,9 @@
+import os
+
 import pygame
 
 from .brick import Brick
+from .iron import Iron
 from .tank import Tank
 from .texture import Texture
 from ..helpers.variables import *
@@ -15,9 +18,20 @@ class Field:
         self.board = field
 
         # значения по умолчанию
-        self.left = 10
-        self.top = 10
-        self.cell_size = 30
+        self.left = 5
+        self.top = 5
+        self.cell_size = CELL_SIZE
+
+    def load_level(self, filename):
+        file = open(os.path.join("origin", "media", 'data', filename), encoding="utf8")
+        for index, el in enumerate(file.read().split("\n")):
+            for i, letter in enumerate(el):
+                if letter == IRON_BLOCK:
+                    self.board[index][i] = IRON
+                elif letter == BRICK_BLOCK:
+                    self.board[index][i] = BRICK
+                else:
+                    self.board[index][i] = EMPTY
 
     def set_empty(self, pos: tuple):
         """Делает данную клетку пустой"""
@@ -37,21 +51,16 @@ class Field:
 
     def render(self, screen):
         """Функция прорисовки поля"""
-        # image = load_image("player_tank.png")
-        # image1 = pygame.transform.scale(image, (55, 55))
-        # screen.blit(image1, (5, 5))
-        #
-        # image = load_image("enemy_tank.png")
-        # image1 = pygame.transform.scale(image, (55, 55))
-        # screen.blit(image1, (55, 55))
 
         for index, lst in enumerate(self.board):
             for j, el in enumerate(lst):
                 start_pos = (self.left + index * self.cell_size,
                              self.top + j * self.cell_size)
-                if el != 0:
+                if el == BRICK:
                     # TODO рисование блоков
                     Brick(start_pos, self)
+                elif el == IRON:
+                    Iron(start_pos, self)
 
     def pos_in_board(self, x, y):
         """Функция проверки координат на нахождении в поле"""
@@ -66,13 +75,13 @@ class Field:
                     y - self.top) // self.cell_size
         return (-1, -1)
 
-    def get_click(self, mouse_pos):
-        """Принимает координаты нажатия"""
-        cell = self.get_cell(mouse_pos)
-        if cell is not None:
-            self.on_click(cell)
-            self.move = not self.move
-
-    def on_click(self, cell):
-        """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
-        self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2
+    # def get_click(self, mouse_pos):
+    #     """Принимает координаты нажатия"""
+    #     cell = self.get_cell(mouse_pos)
+    #     if cell is not None:
+    #         self.on_click(cell)
+    #         self.move = not self.move
+    #
+    # def on_click(self, cell):
+    #     """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
+    #     self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2
