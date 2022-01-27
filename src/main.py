@@ -8,6 +8,7 @@ from origin.classes.player_tank import PlayerTank
 from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import *
+from origin.helpers.func import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
 from origin.classes.texture_pack.bonus import Heal
@@ -24,6 +25,7 @@ class Game:
             text='SETTINGS',
             manager=self.manager)
         self.volume = 1
+        self.music = {}
         # self.player = PlayerTank(60, 60)
         # self.enemy = EnemyTank(885, 775, self.player)
 
@@ -31,15 +33,16 @@ class Game:
         """"""
         self.map_name = map_name
 
-    def main(self, volume):
+    def main(self, music, volume):
         """Главная функция игры"""
+        self.music = music
         self.volume = volume
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
         Heal((170, 60), self.board)
-        self.player = PlayerTank(60, 60)
-        self.enemy = EnemyTank(885, 775, self.player)
-        self.enemy = EnemyTank(885, 775, self.player)
+        self.player = PlayerTank(60, 60, music)
+        self.enemy = EnemyTank(885, 775, self.player, music)
+        # self.enemy = EnemyTank(885, 775, self.player, music)
         # heal = Heal((160, 60), self.board)
         running = True
         started_time = time.time()
@@ -99,6 +102,8 @@ class Game:
         main_font = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
         window = pygame.Surface((500, 600))
         window.fill((16, 164, 149))
+        pygame.mixer.music.pause()
+        self.music['lose'].play()
         while running:
             window.blit(res_font.render('GAME OVER', True, 'purple'), (50, 10))
             window.blit(res_font.render('YOU LOST', True, 'red'), (70, 240))
@@ -115,9 +120,11 @@ class Game:
                     pos = pygame.mouse.get_pos()
                     if 445 <= pos[0] <= 555 and 670 <= pos[1] <= 710:
                         self.stop_game()
+                        pygame.mixer.music.unpause()
                         return 'Lose', time
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        pygame.mixer.music.unpause()
                         return 'Lose', time
             pygame.display.flip()
 
@@ -129,6 +136,8 @@ class Game:
         main_font = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
         window = pygame.Surface((500, 600))
         window.fill((16, 164, 149))
+        pygame.mixer.music.pause()
+        self.music['victory'].play()
         while running:
             window.blit(res_font.render('GAME OVER', True, 'purple'), (50, 10))
             window.blit(res_font.render('YOU WON', True, 'green'), (70, 240))
@@ -149,9 +158,11 @@ class Game:
                     pos = pygame.mouse.get_pos()
                     if 445 <= pos[0] <= 555 and 670 <= pos[1] <= 710:
                         self.stop_game()
+                        pygame.mixer.music.unpause()
                         return 'Win', time
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        pygame.mixer.music.unpause()
                         return 'Win', time
             pygame.display.flip()
 
@@ -159,12 +170,19 @@ class Game:
 SCREEN.fill((0, 0, 0))
 
 if __name__ == '__main__':
+    pygame.mixer.pre_init(44100, -16, 7, 512)
     pygame.init()
+    load_sound('background.wav')
+    pygame.mixer.music.play()
+    sounds = {}
+    for file in ['boost.wav',
+                 'death.wav', 'lose.wav', 'player_shot.wav',
+                 'shot.wav', 'victory.wav']:
+        sounds[file[:-4]] = make_sound(file)
     pygame.display.set_caption('Tanks')
     game = Game("map.txt")
     menu = Menu(PARAMETERS)
     settings = Settings()
     while True:
-        ans = menu.menu()
-        if ans:
-            game.main(ans)
+        ans = menu.menu(sounds)
+        game.main(sounds, ans)

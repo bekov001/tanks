@@ -12,8 +12,8 @@ from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image, \
 
 
 class PlayerTank(Tank):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, music):
+        super().__init__(x, y, music)
         self.add(TANK_GROUP)
         self.image = pygame.transform.scale(load_image("player_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
@@ -21,11 +21,13 @@ class PlayerTank(Tank):
         self.current_angle = 0
         self.created = time.time()
         self.health = 100
+        self.music = music
 
     def strike(self, event):
         """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN \
                 and time.time() - self.created > 0.9:
+            self.music['player_shot'].play()
             Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP, self.muzzle)
             self.created = time.time()
             self.muzzle.get_muzzle(self.rect.center, event.pos)

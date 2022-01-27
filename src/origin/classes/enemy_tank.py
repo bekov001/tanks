@@ -12,8 +12,8 @@ from .player_muzzle import Muzzle
 
 class EnemyTank(Tank):
     """Вражеский танк"""
-    def __init__(self, x, y, enemy):
-        super().__init__(x, y)
+    def __init__(self, x, y, enemy, music):
+        super().__init__(x, y, music)
         self.add(ENEMY_TANK_GROUP)
         self.image = pygame.transform.scale(load_image("enemy_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
@@ -21,9 +21,12 @@ class EnemyTank(Tank):
         self.enemy = enemy
         self.muzzle = Muzzle('muzzle/enemy_muzzle.png', x, y)
         self.do_strike = 0
+        self.music = music
+        self.delay = 3
 
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP, self.muzzle)
+        self.music['shot'].play()
 
     def show_xp(self):
         xp = self.health / 100
@@ -115,12 +118,13 @@ class EnemyTank(Tank):
                                                self.enemy.rect.center)
                         self.current_angle = angle
                         self.do_strike += 1
-                if self.do_strike == 5:
+                if self.do_strike == self.delay:
                     self.strike()
                     self.do_strike = 0
 
             self.show_xp()
         else:
+            self.music['death'].play()
             self.muzzle.kill()
             self.kill()
 

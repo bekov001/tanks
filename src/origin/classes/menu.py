@@ -23,7 +23,7 @@ class Menu:
             else:
                 surf.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
-    def menu(self):
+    def menu(self, music):
         done = True
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         index = 0
@@ -43,9 +43,11 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if index == 0:
                         # self.func()
-                        return 0
+                        return self.volume
                     elif index == 1:
-                        self.settings()
+                        self.volume = self.settings()
+                        for sound in music.values():
+                            sound.set_volume(self.volume)
                     elif index == 2:
                         exit()
                 if event.type == pygame.KEYDOWN:
@@ -61,6 +63,8 @@ class Menu:
                             return self.volume
                         elif index == 1:
                             self.volume = self.settings()
+                            for sound in music.values():
+                                sound.set_volume(self.volume)
                         elif index == 2:
                             exit()
             pygame.display.flip()
@@ -69,42 +73,71 @@ class Menu:
         settings = True
         main_name = pygame.font.Font(pygame.font.match_font('comicsansms'), 130).render('SETTINGS', True, 'purple')
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
-        pos = [700, 350]
+        pos = [self.volume * 390 + 300, 350]
+        pos_back = [pygame.mixer.music.get_volume() * 390 + 300, 500]
+        flag = False
         while settings:
             SURFACE.fill((16, 164, 149))
             SURFACE.blit(main_name, (160, 30))
             SURFACE.blit(font_menu.render('Volume', True, (89, 118, 10)), 
                          (390, 270))
             SURFACE.blit(font_menu.render('NFT', True, (89, 118, 10)),
-                         (450, 430))
+                         (450, 600))
             SURFACE.blit(font_menu.render('Back', True, (89, 118, 10)),
-                         (430, 600))
-            pygame.draw.line(SURFACE, 'white', (300, 370), (710, 370))
+                         (430, 770))
+            pygame.draw.line(SURFACE, 'white', (300, 370), (690, 370))
+            pygame.draw.line(SURFACE, 'white', (300, 520), (690, 520))
             pygame.draw.rect(SURFACE, (89, 118, 10), (*pos, 20, 40))
+            pygame.draw.rect(SURFACE, (89, 118, 10), (*pos_back, 20, 40))
             SCREEN.blit(SURFACE, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        return ((pos[0] - 400) / 200) * 100
+                        return (pos[0] - 300) / 390
                     if event.key == pygame.K_LEFT and pos[0] > 310:
                         pos[0] -= 10
                     if event.key == pygame.K_RIGHT and pos[0] < 690:
                         pos[0] += 10
                     if event.key == pygame.K_RETURN:
-                        return (pos[0] - 400) / 200
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                        return (pos[0] - 300) / 390
+                if event.type == pygame.MOUSEBUTTONDOWN and \
+                        event.button == pygame.BUTTON_LEFT:
                     mouse_pos = pygame.mouse.get_pos()
                     if 300 <= mouse_pos[0] <= 700 \
                             and 350 <= mouse_pos[1] <= 390:
-                        pos[0] = mouse_pos[0]
+                        flag = True
                     elif mouse_pos[0] > 700 and 350 <= mouse_pos[1] <= 390 \
                             and pos[0] < 690:
                         pos[0] += 10
                     elif mouse_pos[0] < 300 and 350 <= mouse_pos[1] <= 390 \
                             and pos[0] > 310:
                         pos[0] -= 10
+                    if 300 <= mouse_pos[0] <= 700 \
+                            and 500 <= mouse_pos[1] <= 540:
+                        flag = True
+                    elif mouse_pos[0] > 700 and 500 <= mouse_pos[1] <= 540 \
+                            and pos_back[0] < 690:
+                        pos_back[0] += 10
+                    elif mouse_pos[0] < 300 and 500 <= mouse_pos[1] <= 540 \
+                            and pos_back[0] > 310:
+                        pos_back[0] -= 10
+                if event.type == pygame.MOUSEBUTTONUP and \
+                        event.button == pygame.BUTTON_LEFT:
+                    flag = False
+                if event.type == pygame.MOUSEMOTION:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if flag and 300 <= mouse_pos[0] <= 680 \
+                            and 350 <= mouse_pos[1] <= 390:
+                        pos[0] = mouse_pos[0]
+                    if flag and 300 <= mouse_pos[0] <= 680 \
+                            and 500 <= mouse_pos[1] <= 540:
+                        pos_back[0] = mouse_pos[0]
+                        pygame.mixer.music.pause()
+                        pygame.mixer.music.set_volume((pos_back[0] - 300) / 390)
+                        pygame.mixer.music.unpause()
+
             pygame.display.flip()
 
 
