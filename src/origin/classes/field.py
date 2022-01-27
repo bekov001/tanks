@@ -2,11 +2,11 @@ import os
 
 import pygame
 
-from .brick import Brick
-from .iron import Iron
+from .inheritors.brick import Brick
+from .inheritors.iron import Iron
 from .tank import Tank
 from .texture import Texture
-from ..helpers.variables import *
+from origin.helpers.variables import *
 
 
 class Field:

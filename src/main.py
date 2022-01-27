@@ -4,8 +4,8 @@ import pygame
 import random
 import pygame_gui as gui
 
-from origin.classes.player_tank import PlayerTank
-from origin.classes.enemy_tank import EnemyTank
+from origin.classes.inheritors.player_tank import PlayerTank
+from origin.classes.inheritors.enemy_tank import EnemyTank
 from origin.classes.field import Field
 from origin.helpers.variables import *
 from origin.classes.exit import Settings

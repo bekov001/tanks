@@ -4,11 +4,12 @@ import pygame
 import math
 import random
 
-from .strike import Strike
-from .tank import Tank
-from .player_muzzle import Muzzle
-from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image, \
+from ..strike import Strike
+from ..tank import Tank
+from ..player_muzzle import Muzzle
+from origin.helpers.variables import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, \
     SCREEN
+from origin.helpers.func import load_image
 
 
 class PlayerTank(Tank):

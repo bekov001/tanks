@@ -1,13 +1,13 @@
 import random
 import time
 
-from ..helpers.variables import *
-from ..helpers.func import load_image
+from origin.helpers.variables import *
+from origin.helpers.func import load_image
 
-from .strike import Strike
-from .tank import Tank
-from .field import Field
-from .player_muzzle import Muzzle
+from ..strike import Strike
+from ..tank import Tank
+from ..field import Field
+from ..player_muzzle import Muzzle
 
 
 class EnemyTank(Tank):

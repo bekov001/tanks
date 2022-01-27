@@ -1,9 +1,9 @@
 import pygame as pg
 
-from src.origin.helpers.variables import *
-from src.origin.helpers.func import load_image
+from origin.helpers.variables import *
+from origin.helpers.func import load_image
 
-from src.origin.classes.texture import Texture
+from ..texture import Texture
 
 
 class Iron(Texture):

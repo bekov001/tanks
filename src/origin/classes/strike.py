@@ -3,7 +3,7 @@ import pygame
 import random
 from itertools import product
 
-from .iron import Iron
+from .inheritors.iron import Iron
 import pygame
 import random
 
