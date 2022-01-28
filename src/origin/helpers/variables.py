@@ -18,6 +18,7 @@ HEAL_BONUS_GROUP = pygame.sprite.Group()
 SHIELD_BONUS_GROUP = pygame.sprite.Group()
 TANK_GROUP = pygame.sprite.Group()
 ENEMY_TANK_GROUP = pygame.sprite.Group()
+COOLDOWN_BONUS_GROUP = pygame.sprite.Group()
 
 field = [[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
          [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2],

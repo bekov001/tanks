@@ -1,4 +1,5 @@
 import pygame
+import webbrowser
 
 from origin.helpers.func import load_image
 from origin.helpers.variables import SURFACE, SCREEN
@@ -79,8 +80,12 @@ class Menu:
         while settings:
             SURFACE.fill((16, 164, 149))
             SURFACE.blit(main_name, (160, 30))
-            SURFACE.blit(font_menu.render('Volume', True, (89, 118, 10)), 
-                         (390, 270))
+            SURFACE.blit(font_menu.render(
+                "Effect's volume", True, (89, 118, 10)),
+                         (270, 270))
+            SURFACE.blit(font_menu.render(
+                'Background music', True, (89, 118, 10)),
+                         (230, 410))
             SURFACE.blit(font_menu.render('NFT', True, (89, 118, 10)),
                          (450, 600))
             SURFACE.blit(font_menu.render('Back', True, (89, 118, 10)),
@@ -89,6 +94,8 @@ class Menu:
             pygame.draw.line(SURFACE, 'white', (300, 520), (690, 520))
             pygame.draw.rect(SURFACE, (89, 118, 10), (*pos, 20, 40))
             pygame.draw.rect(SURFACE, (89, 118, 10), (*pos_back, 20, 40))
+            # pygame.draw.rect(SURFACE, 'white', (445, 595, 145, 70), 1)
+            # pygame.draw.rect(SURFACE, 'white', (425, 765, 175, 70), 1)
             SCREEN.blit(SURFACE, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -105,33 +112,55 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN and \
                         event.button == pygame.BUTTON_LEFT:
                     mouse_pos = pygame.mouse.get_pos()
-                    if 300 <= mouse_pos[0] <= 700 \
+                    if 300 <= mouse_pos[0] <= 710 \
                             and 350 <= mouse_pos[1] <= 390:
                         flag = True
-                    elif mouse_pos[0] > 700 and 350 <= mouse_pos[1] <= 390 \
-                            and pos[0] < 690:
-                        pos[0] += 10
-                    elif mouse_pos[0] < 300 and 350 <= mouse_pos[1] <= 390 \
-                            and pos[0] > 310:
-                        pos[0] -= 10
-                    if 300 <= mouse_pos[0] <= 700 \
+                    elif mouse_pos[0] > 690 and 350 <= mouse_pos[1] <= 390:
+                        if pos[0] < 680:
+                            pos[0] += 10
+                        else:
+                            pos[0] = 690
+                    elif mouse_pos[0] < 300 and 350 <= mouse_pos[1] <= 390:
+                        if pos[0] > 310:
+                            pos[0] -= 10
+                        else:
+                            pos[0] = 300
+                    if 300 <= mouse_pos[0] <= 710 \
                             and 500 <= mouse_pos[1] <= 540:
                         flag = True
-                    elif mouse_pos[0] > 700 and 500 <= mouse_pos[1] <= 540 \
-                            and pos_back[0] < 690:
-                        pos_back[0] += 10
-                    elif mouse_pos[0] < 300 and 500 <= mouse_pos[1] <= 540 \
-                            and pos_back[0] > 310:
-                        pos_back[0] -= 10
+                    elif mouse_pos[0] > 690 and 500 <= mouse_pos[1] <= 540:
+                        if pos_back[0] < 680:
+                            pos_back[0] += 10
+                        else:
+                            pos_back[0] = 690
+                        pygame.mixer.music.pause()
+                        pygame.mixer.music.set_volume(
+                            (pos_back[0] - 300) / 390)
+                        pygame.mixer.music.unpause()
+                    elif mouse_pos[0] < 300 and 500 <= mouse_pos[1] <= 540:
+                        if pos_back[0] > 310:
+                            pos_back[0] -= 10
+                        else:
+                            pos_back[0] = 300
+                        pygame.mixer.music.pause()
+                        pygame.mixer.music.set_volume(
+                            (pos_back[0] - 300) / 390)
+                        pygame.mixer.music.unpause()
+                    if 445 <= mouse_pos[0] <= 590 and \
+                            595 <= mouse_pos[1] <= 665:
+                        webbrowser.open('https://opensea.io/collection/colorfultanks')
+                    if 425 <= mouse_pos[0] <= 600 and \
+                            765 <= mouse_pos[1] <= 835:
+                        return (pos[0] - 300) / 390
                 if event.type == pygame.MOUSEBUTTONUP and \
                         event.button == pygame.BUTTON_LEFT:
                     flag = False
                 if event.type == pygame.MOUSEMOTION:
                     mouse_pos = pygame.mouse.get_pos()
-                    if flag and 300 <= mouse_pos[0] <= 680 \
+                    if flag and 300 <= mouse_pos[0] <= 690 \
                             and 350 <= mouse_pos[1] <= 390:
                         pos[0] = mouse_pos[0]
-                    if flag and 300 <= mouse_pos[0] <= 680 \
+                    if flag and 300 <= mouse_pos[0] <= 690 \
                             and 500 <= mouse_pos[1] <= 540:
                         pos_back[0] = mouse_pos[0]
                         pygame.mixer.music.pause()

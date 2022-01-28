@@ -10,7 +10,7 @@ from origin.classes.field import Field
 from origin.helpers import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
-from origin.classes.texture_pack.bonus import Heal
+from origin.classes.texture_pack.bonus import Heal, CoolDown
 from origin.classes.levels import Levels
 
 
@@ -33,6 +33,17 @@ class Game:
         """"""
         self.map_name = map_name
 
+    def generate_bonus(self):
+        empty_coords = []
+        for i in range(len(self.board.board)):
+            for j in range(len(self.board.board[0])):
+                if self.board.board[i][j] == 0:
+                    empty_coords.append((i, j))
+        pos = random.choice(empty_coords)
+        bonus = random.choice([Heal, CoolDown])
+        bonus((self.board.left + 55 * pos[0], self.board.top + 55 * pos[1]),
+              self.board)
+
     def main(self, music, volume):
         """Главная функция игры"""
         self.music = music
@@ -41,6 +52,7 @@ class Game:
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
         running = True
+        schedule.every(10).seconds.do(self.generate_bonus)
         font = pygame.font.Font(pygame.font.match_font('comicsansms'), 20)
         started_time = time.time()
         timing = time.time()
@@ -48,6 +60,7 @@ class Game:
         seconds = 0.1
 
         while running:
+            schedule.run_pending()
             start = time.monotonic()
             time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
@@ -78,7 +91,10 @@ class Game:
                 ALL_SPRITES.draw(SCREEN)
                 SCREEN.blit(font.render(
                     'Time: ' + str(round(time.time() - started_time, 1)
-                                   ), True, 'white'), (10, 20))
+                                   ), True, 'black'), (10, 20))
+                SCREEN.blit(font.render(
+                    'Cooldown: ' + str(round(self.player.delay * 0.3, 1)
+                                       ) + ' sec', True, 'black'), (120, 20))
                 ALL_SPRITES.update()
                 self.manager.update(time_delta)
                 self.manager.draw_ui(SCREEN)
@@ -175,6 +191,7 @@ if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 7, 512)
     pygame.init()
     load_sound('background.wav')
+    pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play()
     sounds = {}
     for file in ['boost.wav',

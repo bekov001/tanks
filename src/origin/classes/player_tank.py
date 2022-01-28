@@ -25,7 +25,7 @@ class PlayerTank(Tank):
     def strike(self, event):
         """Функция выстрела"""
         if event.type == pygame.MOUSEBUTTONDOWN \
-                and time.time() - self.created > 0.9:
+                and time.time() - self.created > self.delay * 0.3:
             self.music['player_shot'].play()
             Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP, self.muzzle)
             self.created = time.time()
@@ -36,8 +36,12 @@ class PlayerTank(Tank):
 
     def show_xp(self):
         xp = self.health / 100
+        font = pygame.font.Font(pygame.font.match_font('comicsansms'), 15)
         pygame.draw.rect(SCREEN, "green", (10, 10, 200 * xp, 10))
-        pygame.draw.rect(SCREEN, "red", (200 * xp + 10, 10, 200 - 200 * xp, 10))
+        pygame.draw.rect(SCREEN, "red", (
+            200 * xp + 10, 10, 200 - 200 * xp, 10))
+        SCREEN.blit(font.render(str(self.health) + 'hp', True, 'green'),
+                    (210, 7))
 
     def update(self, *args):
         if self.health:

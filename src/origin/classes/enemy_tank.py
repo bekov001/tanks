@@ -20,7 +20,6 @@ class EnemyTank(Tank):
         self.muzzle = Muzzle('muzzle/enemy_muzzle.png', x, y)
         self.do_strike = 0
         self.music = music
-        self.delay = 3
 
     def strike(self):
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP, self.muzzle)
