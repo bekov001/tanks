@@ -32,3 +32,12 @@ def make_sound(name):
         raise FileNotFoundError
     sound = pygame.mixer.Sound(fullname)
     return sound
+
+
+def load_file(filename):
+    fullname = os.path.join("origin", "media", filename)
+    # если файл не существует, то выходим
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        raise FileNotFoundError
+    return fullname

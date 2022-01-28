@@ -46,61 +46,24 @@
 
 import pygame
 import pygame_gui as gui
-from origin.helpers.variables import WIDTH, SIZE, FPS, PARAMETERS, SCREEN, \
-    CLOCK
+from ..helpers import *
 
 
 class Settings:
     def __init__(self):
-        self.manager = gui.UIManager(SIZE)
-        self.exit_button = gui.elements.UIButton(
-            relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
-            text='ВЫЙТИ',
-            manager=self.manager)
-        self.return_btn = gui.elements.UIButton(
-            relative_rect=pygame.Rect((WIDTH - 205, 5), (90, 50)),
-            text='ВЕРНУТЬСЯ',
-            manager=self.manager)
-
-    def game_over(self):
-        intro_text = ["ЗАСТАВКА", "",
-                      "Правила игры",
-                      "Если в правилах несколько строк,",
-                      "приходится выводить их построчно"]
-        fon = pygame.Surface((WIDTH, WIDTH))
-        fon.fill("red")
-        SCREEN.blit(fon, (0, 0))
-        font = pygame.font.Font(None, 30)
-        text_coord = 50
-
-        for line in intro_text:
-            string_rendered = font.render(line, 1, pygame.Color('white'))
-            intro_rect = string_rendered.get_rect()
-            text_coord += 10
-            intro_rect.top = text_coord
-            intro_rect.x = 10
-            text_coord += intro_rect.height
-            SCREEN.blit(string_rendered, intro_rect)
+        self.manager = gui.UIManager(SIZE, load_file("data/settings.json"))
+        btn_size = (200, 120)
+        for index, (name, variable) in enumerate(zip(("RETURN", "QUIT"), ["return_btn",
+                                                              "exit_btn"]), 1):
+            setattr(self, variable, gui.elements.UIButton(
+                relative_rect=pygame.Rect((WIDTH // 2 - btn_size[1], HEIGHT // 2 + (index - 1) * (btn_size[1] + 10)),btn_size),
+                text=name,
+                manager=self.manager))
 
     def start_screen(self):
-        intro_text = ["ЗАСТАВКА", "",
-                      "Правила игры",
-                      "Если в правилах несколько строк,",
-                      "приходится выводить их построчно"]
         fon = pygame.Surface((WIDTH, WIDTH))
         fon.fill("red")
         SCREEN.blit(fon, (0, 0))
-        font = pygame.font.Font(None, 30)
-        text_coord = 50
-
-        for line in intro_text:
-            string_rendered = font.render(line, 1, pygame.Color('white'))
-            intro_rect = string_rendered.get_rect()
-            text_coord += 10
-            intro_rect.top = text_coord
-            intro_rect.x = 10
-            text_coord += intro_rect.height
-            SCREEN.blit(string_rendered, intro_rect)
 
         while True:
             time_delta = CLOCK.tick(60) / 1000.0
@@ -110,7 +73,7 @@ class Settings:
                 if event.type == gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.return_btn:
                         return 0
-                    if event.ui_element == self.exit_button:
+                    if event.ui_element == self.exit_btn:
                         return "EXIT"
                 # elif event.type == pygame.KEYDOWN or \
                 #         event.type == pygame.MOUSEBUTTONDOWN:

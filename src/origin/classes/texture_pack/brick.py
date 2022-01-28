@@ -1,15 +1,14 @@
 import pygame as pg
 
-from .texture import Texture
-from ..helpers import CELL_SIZE, SCREEN, STRIKE_GROUP, load_image
+from src.origin.classes.texture import Texture
+from src.origin.helpers import CELL_SIZE, SCREEN, STRIKE_GROUP, load_image
 
 
 class Brick(Texture):
     """Класс кирпичей"""
     def __init__(self, *args):
         super().__init__(*args)
-        self.image = pg.transform.scale(load_image("good_brick.png"),
-                                            (CELL_SIZE, CELL_SIZE))
+        self.image = load_image(r"texture_pack\good_brick.png")
         self.hp = 3
 
     def check_collision(self):

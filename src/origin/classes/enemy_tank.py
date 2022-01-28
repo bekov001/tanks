@@ -1,12 +1,10 @@
 import random
-import time
 
 from ..helpers.variables import *
 from ..helpers.func import load_image
 
 from .strike import Strike
 from .tank import Tank
-from .field import Field
 from .player_muzzle import Muzzle
 
 
@@ -15,7 +13,7 @@ class EnemyTank(Tank):
     def __init__(self, x, y, enemy, music):
         super().__init__(x, y, music)
         self.add(ENEMY_TANK_GROUP)
-        self.image = pygame.transform.scale(load_image("enemy_base.png"),
+        self.image = pygame.transform.scale(load_image("base/enemy_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.current_angle = 0
         self.enemy = enemy

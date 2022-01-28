@@ -1,0 +1,12 @@
+{
+      "button":{
+        "colors": {
+          "normal_bg": "#FFFFFF"
+        },
+          "images": {
+             "normal_image": {
+                 "path": "origin/media/img/settings.png"
+             }
+         }
+      }
+     }

@@ -1,0 +1,11 @@
+{
+      "button":{
+        "font":
+         {
+             "name": "montserrat",
+             "size": "38",
+
+           "regular_path": "origin/media/font/MontserratAlternates-Black.otf"
+         }
+      }
+     }

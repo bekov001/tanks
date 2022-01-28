@@ -5,24 +5,23 @@ import random
 import pygame_gui as gui
 
 from origin.classes.player_tank import PlayerTank
-from origin.classes.enemy_tank import EnemyTank
 from origin.classes.field import Field
-from origin.helpers.variables import *
-from origin.helpers.func import *
+from origin.helpers import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
 from origin.classes.texture_pack.bonus import Heal
+from src.origin.classes.levels import Levels
 
 
 class Game:
     """Класс игры, здесь происходит сама игра, а также загружается карта"""
-    def __init__(self, map_name):
-        self.board = Field(N - 2, N)
+    def __init__(self, map_name, music):
+        self.board = Field(N - 2, N, music)
         self.map_name = map_name
-        self.manager = gui.UIManager(SIZE)
+        self.manager = gui.UIManager(SIZE, load_file("data/theme.json"))
         self.settings_btn = gui.elements.UIButton(
-            relative_rect=pygame.Rect((WIDTH - 105, 5), (90, 50)),
-            text='SETTINGS',
+            relative_rect=pygame.Rect((WIDTH - 65, 5), (60, 60)),
+            text='',
             manager=self.manager)
         self.volume = 1
         self.music = {}
@@ -37,13 +36,11 @@ class Game:
         """Главная функция игры"""
         self.music = music
         self.volume = volume
+        self.player = PlayerTank(60, 60, music)
+        self.board.set_player(self.player)
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
         Heal((170, 60), self.board)
-        self.player = PlayerTank(60, 60, music)
-        self.enemy = EnemyTank(885, 775, self.player, music)
-        # self.enemy = EnemyTank(885, 775, self.player, music)
-        # heal = Heal((160, 60), self.board)
         running = True
         started_time = time.time()
         timing = time.time()
@@ -180,9 +177,11 @@ if __name__ == '__main__':
                  'shot.wav', 'victory.wav']:
         sounds[file[:-4]] = make_sound(file)
     pygame.display.set_caption('Tanks')
-    game = Game("map.txt")
+    game = Game("map.txt", sounds)
     menu = Menu(PARAMETERS)
+    levels = Levels()
     settings = Settings()
     while True:
         ans = menu.menu(sounds)
+        levels.start_screen()
         game.main(sounds, ans)

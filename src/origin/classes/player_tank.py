@@ -15,7 +15,7 @@ class PlayerTank(Tank):
     def __init__(self, x, y, music):
         super().__init__(x, y, music)
         self.add(TANK_GROUP)
-        self.image = pygame.transform.scale(load_image("player_base.png"),
+        self.image = pygame.transform.scale(load_image("base/player_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.muzzle = Muzzle("muzzle/player_muzzle.png", x, y)
         self.current_angle = 0

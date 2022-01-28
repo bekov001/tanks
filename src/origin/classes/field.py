@@ -1,17 +1,14 @@
 import os
 
-import pygame
-
-from .brick import Brick
+from src.origin.classes.texture_pack.brick import Brick
+from .enemy_tank import EnemyTank
 from .iron import Iron
-from .tank import Tank
-from .texture import Texture
 from ..helpers.variables import *
 
 
 class Field:
     """Класс поля"""
-    def __init__(self, width, height):
+    def __init__(self, width, height, music):
         self.move = True
         self.width = width
         self.height = height
@@ -22,16 +19,27 @@ class Field:
         self.top = 5
         self.cell_size = CELL_SIZE
 
+        self.music = music
+
+    def set_player(self, player):
+        self.player = player
+
     def load_level(self, filename):
-        file = open(os.path.join("origin", "media", 'data', filename), encoding="utf8")
+        file = open(os.path.join("origin", "media", 'data', "maps", filename), encoding="utf8")
         for index, el in enumerate(file.read().split("\n")):
             for i, letter in enumerate(el):
                 if letter == IRON_BLOCK:
-                    self.board[index][i] = IRON
+                    result = IRON
                 elif letter == BRICK_BLOCK:
-                    self.board[index][i] = BRICK
+                    result = BRICK
+                elif letter == PLAYER_BLOCK:
+                    result = PLAYER
+                elif letter == ENEMY_BLOCK:
+                    result = ENEMY
                 else:
-                    self.board[index][i] = EMPTY
+                    result = EMPTY
+
+                self.board[index][i] = result
 
     def set_empty(self, pos: tuple):
         """Делает данную клетку пустой"""
@@ -57,10 +65,11 @@ class Field:
                 start_pos = (self.left + index * self.cell_size,
                              self.top + j * self.cell_size)
                 if el == BRICK:
-                    # TODO рисование блоков
                     Brick(start_pos, self)
                 elif el == IRON:
                     Iron(start_pos, self)
+                elif el == ENEMY:
+                    EnemyTank(*start_pos, self.player, self.music)
 
     def pos_in_board(self, x, y):
         """Функция проверки координат на нахождении в поле"""
