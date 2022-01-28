@@ -20,7 +20,7 @@ class PlayerTank(Tank):
         self.muzzle = Muzzle("muzzle/player_muzzle.png", x, y)
         self.current_angle = 0
         self.created = time.time()
-        self.health = 100
+        self.health = 10000
         self.music = music
 
     def strike(self, event):
@@ -56,7 +56,8 @@ class PlayerTank(Tank):
                                     (self.rect.x + move[0],
                                      self.rect.y + move[1])
                                 )
-                            ):
+                            ) and all((self.rect.x + move[0],
+                                     self.rect.y + move[1]) != (tank.rect.x, tank.rect.y) for tank in ENEMY_TANK_GROUP):
                         self.rect = self.rect.move(*move)
                         self.image = pygame.transform.rotate(self.image,
                                                              self.current_angle - angle)

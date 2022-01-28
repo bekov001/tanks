@@ -100,15 +100,14 @@ class EnemyTank(Tank):
             if args:
                 board = args[0]
                 enemy_pos = self.enemy.get_position()
-                # available = []
-                # for angle, move, direction in data:
-                #     if board.is_empty(board.get_cell((self.rect.x + move[0], self.rect.y + move[1]))):
-                #         available.append(direction)
                 chosen = self.generate_direction(enemy_pos)
                 for angle, move, direction in data:
                     if chosen == direction and board.is_empty(
                             board.get_cell((self.rect.x + move[0],
-                                            self.rect.y + move[1]))):
+                                            self.rect.y + move[1]))) and \
+                            all((self.rect.x + move[0],
+                                     self.rect.y + move[1]) != (tank.rect.x, tank.rect.y)  for tank in ENEMY_TANK_GROUP) and (self.rect.x + move[0],
+                                     self.rect.y + move[1]) != (self.enemy.rect.x, self.enemy.rect.y):
                         self.rect = self.rect.move(*move)
                         self.image = pygame.transform.rotate(
                             self.image, self.current_angle - angle)
