@@ -2,6 +2,7 @@ import os
 import time
 import pygame
 import random
+import schedule
 import pygame_gui as gui
 
 from origin.classes.player_tank import PlayerTank
@@ -10,7 +11,7 @@ from origin.helpers import *
 from origin.classes.exit import Settings
 from origin.classes.menu import Menu
 from origin.classes.texture_pack.bonus import Heal
-from src.origin.classes.levels import Levels
+from origin.classes.levels import Levels
 
 
 class Game:
@@ -25,7 +26,7 @@ class Game:
             manager=self.manager)
         self.volume = 1
         self.music = {}
-        # self.player = PlayerTank(60, 60)
+        self.player = PlayerTank(60, 60, music)
         # self.enemy = EnemyTank(885, 775, self.player)
 
     def set_level(self, map_name):
@@ -36,12 +37,11 @@ class Game:
         """Главная функция игры"""
         self.music = music
         self.volume = volume
-        self.player = PlayerTank(60, 60, music)
         self.board.set_player(self.player)
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
-        Heal((170, 60), self.board)
         running = True
+        font = pygame.font.Font(pygame.font.match_font('comicsansms'), 20)
         started_time = time.time()
         timing = time.time()
         step_timing = time.time()
@@ -74,17 +74,22 @@ class Game:
             for sprite in ALL_SPRITES.sprites():
                 sprite.check_collision()
             if time.time() - timing > seconds:
-                timing = time.time()
                 SCREEN.fill("black")
                 ALL_SPRITES.draw(SCREEN)
+                SCREEN.blit(font.render(
+                    'Time: ' + str(round(time.time() - started_time, 1)
+                                   ), True, 'white'), (10, 20))
                 ALL_SPRITES.update()
                 self.manager.update(time_delta)
                 self.manager.draw_ui(SCREEN)
+                timing = time.time()
                 pygame.display.flip()
             if not TANK_GROUP:
+                TEXTURE_GROUP.draw(SCREEN)
                 res = self.lost(SCREEN, round(time.time() - started_time, 1))
                 return res
             if not ENEMY_TANK_GROUP:
+                TEXTURE_GROUP.draw(SCREEN)
                 res = self.won(SCREEN, round(time.time() - started_time, 1))
                 return res
 
@@ -177,11 +182,11 @@ if __name__ == '__main__':
                  'shot.wav', 'victory.wav']:
         sounds[file[:-4]] = make_sound(file)
     pygame.display.set_caption('Tanks')
-    game = Game("map.txt", sounds)
     menu = Menu(PARAMETERS)
     levels = Levels()
     settings = Settings()
     while True:
         ans = menu.menu(sounds)
-        levels.start_screen()
+        map = levels.start_screen()
+        game = Game(map, sounds)
         game.main(sounds, ans)

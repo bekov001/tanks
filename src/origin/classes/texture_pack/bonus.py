@@ -12,7 +12,6 @@ class Heal(Texture):
     heal_points = 40
 
     def __init__(self, *args):
-        print(args)
         super().__init__(*args)
         self.add(HEAL_BONUS_GROUP)
         self.heal_points = 50

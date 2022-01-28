@@ -1,7 +1,8 @@
 import os
 
-from src.origin.classes.texture_pack.brick import Brick
+from .texture_pack.brick import Brick
 from .enemy_tank import EnemyTank
+from .player_tank import PlayerTank
 from .iron import Iron
 from ..helpers.variables import *
 
@@ -13,6 +14,7 @@ class Field:
         self.width = width
         self.height = height
         self.board = field
+        self.player = None
 
         # значения по умолчанию
         self.left = 5
@@ -70,11 +72,19 @@ class Field:
                     Iron(start_pos, self)
                 elif el == ENEMY:
                     EnemyTank(*start_pos, self.player, self.music)
+                    self.board[index][j] = EMPTY
+                elif el == PLAYER:
+                    self.player.rect.x, self.player.rect.y = start_pos[0], \
+                                                             start_pos[1]
+                    self.player.muzzle.rect.x, self.player.muzzle.rect.y =\
+                        start_pos[0], start_pos[1]
+                    self.board[index][j] = EMPTY
 
     def pos_in_board(self, x, y):
         """Функция проверки координат на нахождении в поле"""
-        return self.left < x < self.left + len(self.board) * self.cell_size and \
-               self.top < y < self.top + len(self.board[0]) * self.cell_size
+        return self.left < x < self.left + len(
+            self.board) * self.cell_size and self.top < y < self.top + len(
+            self.board[0]) * self.cell_size
 
     def get_cell(self, mouse_pos):
         """Возвращает координату клетки, по координатом окна"""

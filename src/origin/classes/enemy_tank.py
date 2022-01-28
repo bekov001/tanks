@@ -106,19 +106,20 @@ class EnemyTank(Tank):
                             board.get_cell((self.rect.x + move[0],
                                             self.rect.y + move[1]))) and \
                             all((self.rect.x + move[0],
-                                     self.rect.y + move[1]) != (tank.rect.x, tank.rect.y)  for tank in ENEMY_TANK_GROUP) and (self.rect.x + move[0],
-                                     self.rect.y + move[1]) != (self.enemy.rect.x, self.enemy.rect.y):
+                                 self.rect.y + move[1]) != (tank.rect.x, tank.rect.y)  for tank in ENEMY_TANK_GROUP) and \
+                            (self.rect.x + move[0],
+                             self.rect.y + move[1]) != (self.enemy.rect.x, self.enemy.rect.y):
                         self.rect = self.rect.move(*move)
                         self.image = pygame.transform.rotate(
                             self.image, self.current_angle - angle)
                         self.muzzle.get_muzzle(self.rect.center,
                                                self.enemy.rect.center)
                         self.current_angle = angle
+                        self.healed = False
                         self.do_strike += 1
                 if self.do_strike == self.delay:
                     self.strike()
                     self.do_strike = 0
-
             self.show_xp()
         else:
             self.music['death'].play()

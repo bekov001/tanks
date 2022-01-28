@@ -23,14 +23,10 @@ class Tank(pygame.sprite.Sprite):
 
     def check_collision(self):
         if pygame.sprite.spritecollideany(self, HEAL_BONUS_GROUP):
-            if not self.healed and self.health < 100:
-                if self.health + Heal.heal_points > 100:
-                    self.health = 100
-                    self.music['boost'].play()
-                else:
-                    self.health += Heal.heal_points
-                    self.music['boost'].play()
+            if not self.healed:
+                self.health = 100
                 self.healed = True
+                self.music['boost'].play()
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)

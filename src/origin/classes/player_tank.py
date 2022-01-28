@@ -20,7 +20,6 @@ class PlayerTank(Tank):
         self.muzzle = Muzzle("muzzle/player_muzzle.png", x, y)
         self.current_angle = 0
         self.created = time.time()
-        self.health = 10000
         self.music = music
 
     def strike(self, event):
