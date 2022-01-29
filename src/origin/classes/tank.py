@@ -37,6 +37,7 @@ class Tank(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, COOLDOWN_BONUS_GROUP):
             self.cd_time = time.time()
             self.delay = 1
+            self.music['boost'].play()
 
     def update(self):
         self.rect = self.rect.move(self.vx, self.vy)

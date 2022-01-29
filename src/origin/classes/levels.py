@@ -46,7 +46,7 @@ class Levels:
                     for index, name in\
                             enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
                         if event.ui_element == getattr(self, name):
-                            return 'map.txt'
+                            return f'map{index}.txt'
                 # elif event.type == pygame.KEYDOWN or \
                 #         event.type == pygame.MOUSEBUTTONDOWN:
                 #     pass
