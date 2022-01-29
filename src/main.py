@@ -27,6 +27,7 @@ class Game:
         self.volume = 1
         self.music = {}
         self.player = PlayerTank(60, 60, music)
+        self.running = True
         # self.enemy = EnemyTank(885, 775, self.player)
 
     def set_level(self, map_name):
@@ -34,15 +35,17 @@ class Game:
         self.map_name = map_name
 
     def generate_bonus(self):
-        empty_coords = []
-        for i in range(len(self.board.board)):
-            for j in range(len(self.board.board[0])):
-                if self.board.board[i][j] == 0:
-                    empty_coords.append((i, j))
-        pos = random.choice(empty_coords)
-        bonus = random.choice([Heal, CoolDown])
-        bonus((self.board.left + 55 * pos[0], self.board.top + 55 * pos[1]),
-              self.board, self.music)
+        if self.running:
+            empty_coords = []
+            for i in range(len(self.board.board)):
+                for j in range(len(self.board.board[0])):
+                    if self.board.board[i][j] == 0:
+                        empty_coords.append((i, j))
+            pos = random.choice(empty_coords)
+            bonus = random.choice([Heal, CoolDown])
+            bonus((
+                self.board.left + 55 * pos[0], self.board.top + 55 * pos[1]
+            ), self.board, self.music)
 
     def main(self, music, volume):
         """Главная функция игры"""
@@ -51,16 +54,15 @@ class Game:
         self.board.set_player(self.player)
         self.board.load_level(self.map_name)
         self.board.render(SCREEN)
-        running = True
-        schedule.every(10).seconds.do(self.generate_bonus)
+        self.running = True
+        bonus_time = time.time()
         font = pygame.font.Font(pygame.font.match_font('comicsansms'), 20)
         started_time = time.time()
         timing = time.time()
         step_timing = time.time()
         seconds = 0.1
 
-        while running:
-            schedule.run_pending()
+        while self.running:
             start = time.monotonic()
             time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
@@ -84,6 +86,9 @@ class Game:
             if time.time() - step_timing > 0.3:
                 ENEMY_TANK_GROUP.update(self.board)
                 step_timing = time.time()
+            if time.time() - bonus_time >= 10:
+                self.generate_bonus()
+                bonus_time = time.time()
             for sprite in ALL_SPRITES.sprites():
                 sprite.check_collision()
             if time.time() - timing > seconds:
@@ -108,6 +113,7 @@ class Game:
                 TEXTURE_GROUP.draw(SCREEN)
                 res = self.won(SCREEN, round(time.time() - started_time, 1))
                 return res
+        self.running = False
 
     def stop_game(self):
         """Останавливает игру, уничтожая все элементы"""
