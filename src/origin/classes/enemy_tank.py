@@ -1,4 +1,5 @@
 import random
+import time
 
 from ..helpers.variables import *
 from ..helpers.func import load_image
@@ -88,6 +89,10 @@ class EnemyTank(Tank):
     #     return random.choice(available_directions)
 
     def update(self, *args):
+        if self.cd_time:
+            if time.time() - self.cd_time >= 3:
+                self.delay = 3
+                self.cd_time = 0
         if self.health > 0:
             self.muzzle.get_muzzle(self.rect.center,
                                    self.enemy.rect.center)

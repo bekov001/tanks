@@ -44,6 +44,10 @@ class PlayerTank(Tank):
                     (210, 7))
 
     def update(self, *args):
+        if self.cd_time:
+            if time.time() - self.cd_time >= 3:
+                self.delay = 3
+                self.cd_time = 0
         if self.health:
             data = zip((-90, 90, 180, 0), (
             (CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
