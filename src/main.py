@@ -123,7 +123,7 @@ class Game:
     def add_history(self, result, time):
         level = self.map_name.split(".")[0][-1] if any(map(str.isdigit, self.map_name)) else 0
         file = open(load_file("data/history.txt"), "a")
-        file.write(f"level {level} - {result}, your time: {str(time)}\n")
+        file.write(f"level {level} - {result}: with time - {str(time)}\n")
 
     def lost(self, surface, time):
         self.add_history("lose", time)

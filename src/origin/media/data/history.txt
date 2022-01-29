@@ -1,6 +1,2 @@
-level 1 - test
-level 1 - won
-level 1 - won
-level 1 - won
-level 2 - lose
-level 1 - won, your time: 15.8
+level 1 - won: with time - 15.2
+level 2 - lose: with time - 20.8

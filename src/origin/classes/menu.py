@@ -1,7 +1,7 @@
 import pygame
 import webbrowser
 
-from origin.helpers.func import load_image
+from origin.helpers.func import load_image, load_file
 from origin.helpers.variables import SURFACE, SCREEN
 
 
@@ -28,6 +28,7 @@ class Menu:
     def menu(self, music):
         self.music = music
         done = True
+        history_image = pygame.transform.scale(load_image('history.png'), (100, 100))
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         index = 0
         while done:
@@ -37,6 +38,7 @@ class Menu:
                 if i[0] < pos[0] < i[0] + 155 and i[1] < pos[1] < i[1] + 50:
                     index = i[-1]
             self.render(SURFACE, font_menu, index)
+            SURFACE.blit(history_image, (5, 750))
             SURFACE.blit(self.image, (150, 50))
             SCREEN.blit(SURFACE, (0, 0))
             # pygame.draw.line(screen, (255, 0, 0), (500, 0), (500, 890))
@@ -44,15 +46,20 @@ class Menu:
                 if event.type == pygame.QUIT:
                     exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if index == 0:
-                        # self.func()
-                        return self.volume
-                    elif index == 1:
-                        self.volume = self.settings()
-                        for sound in music.values():
-                            sound.set_volume(self.volume)
-                    elif index == 2:
-                        exit()
+                    if event.button == pygame.BUTTON_LEFT:
+                        mouse_pos = pygame.mouse.get_pos()
+                        if 5 <= mouse_pos[0] <= 105 and \
+                                750 <= mouse_pos[1] <= 850:
+                            self.show_history()
+                        elif index == 0:
+                            # self.func()
+                            return self.volume
+                        elif index == 1:
+                            self.volume = self.settings()
+                            for sound in music.values():
+                                sound.set_volume(self.volume)
+                        elif index == 2:
+                            exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         if index > 0:
@@ -73,11 +80,71 @@ class Menu:
             pygame.display.flip()
 
     def show_history(self):
-        pass
+        history = True
+        SCREEN.fill((16, 164, 149))
+        pos_of_results = [115, 370]
+        pos_of_records = [20, 20]
+        record_font = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
+        main_font = pygame.font.Font(pygame.font.match_font('pacifico'), 70)
+        results = []
+        file_of_history = open(load_file('data/history.txt'), 'r')
+        back_button = pygame.transform.scale(load_image('back_button.png'), 
+                                             (100, 100))
+        for line in file_of_history:
+            results.append(line.strip())
+        if results:
+            results = results[::-1]
+        else:
+            results = 'EMPTY'
+        while history:
+            SURFACE.fill((16, 164, 149))
+            SURFACE.blit(main_font.render(
+                f"History of your games:", True,
+                'yellow'),
+                (20, 300)
+            )
+            SURFACE.blit(back_button, (5, 750))
+            for line in range(len(results)):
+                SURFACE.blit(main_font.render(results[line], True, 'white'), (pos_of_results[0], pos_of_results[1] + 60 * line))
+            if results:
+                for i in range(3):
+                    record = list(
+                        sorted(filter(lambda y: 'won' in y, filter(
+                            lambda x: 'level ' + str(i + 1) in x, results)),
+                               key=lambda x: float(x.split(' ')[-1])))
+                    if record:
+                        SURFACE.blit(
+                            record_font.render(
+                                f"Best time of {i + 1} lvl: "
+                                f"{record[-1].split(' ')[-1]}", True, 'red'),
+                            (pos_of_records[0], pos_of_records[1] + 75 * i)
+                        )
+                    else:
+                        SURFACE.blit(record_font.render(
+                            f"Best time of {i + 1} lvl: no data",
+                            True, 'red'),
+                            (pos_of_records[0], pos_of_records[1] + 75 * i)
+                        )
+                
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit(0)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == pygame.BUTTON_LEFT:
+                        mouse_pos = pygame.mouse.get_pos()
+                        if 5 <= mouse_pos[0] <= 105 and \
+                                750 <= mouse_pos[1] <= 850:
+                            return 
+            SCREEN.blit(SURFACE, (0, 0))
+            pygame.display.flip()
 
     def settings(self):
         settings = True
-        main_name = pygame.font.Font(pygame.font.match_font('comicsansms'), 130).render('SETTINGS', True, 'purple')
+        main_name = pygame.font.Font(pygame.font.match_font(
+            'comicsansms'), 130).render('SETTINGS', True, 'purple')
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         pos = [self.music['shot'].get_volume() * 390 + 300, 350]
         pos_back = [pygame.mixer.music.get_volume() * 390 + 300, 500]
@@ -153,7 +220,8 @@ class Menu:
                         pygame.mixer.music.unpause()
                     if 445 <= mouse_pos[0] <= 590 and \
                             595 <= mouse_pos[1] <= 665:
-                        webbrowser.open('https://opensea.io/collection/colorfultanks')
+                        webbrowser.open(
+                            'https://opensea.io/collection/colorfultanks')
                     if 425 <= mouse_pos[0] <= 600 and \
                             765 <= mouse_pos[1] <= 835:
                         return (pos[0] - 300) / 390
@@ -169,7 +237,8 @@ class Menu:
                             and 500 <= mouse_pos[1] <= 540:
                         pos_back[0] = mouse_pos[0]
                         pygame.mixer.music.pause()
-                        pygame.mixer.music.set_volume((pos_back[0] - 300) / 390)
+                        pygame.mixer.music.set_volume(
+                            (pos_back[0] - 300) / 390)
                         pygame.mixer.music.unpause()
 
             pygame.display.flip()
