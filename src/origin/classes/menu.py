@@ -16,6 +16,7 @@ class Menu:
         self.image = load_image('project_name.png')
         self.image = pygame.transform.scale(self.image, (700, 100))
         self.volume = 1
+        self.music = {}
 
     def render(self, surf, font, index):
         for i in self.parameters:
@@ -25,6 +26,7 @@ class Menu:
                 surf.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
     def menu(self, music):
+        self.music = music
         done = True
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         index = 0
@@ -74,7 +76,7 @@ class Menu:
         settings = True
         main_name = pygame.font.Font(pygame.font.match_font('comicsansms'), 130).render('SETTINGS', True, 'purple')
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
-        pos = [self.volume * 390 + 300, 350]
+        pos = [self.music['shot'].get_volume() * 390 + 300, 350]
         pos_back = [pygame.mixer.music.get_volume() * 390 + 300, 500]
         flag = False
         while settings:

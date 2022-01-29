@@ -207,7 +207,7 @@ if __name__ == '__main__':
     pygame.display.set_caption('Tanks')
     menu = Menu(PARAMETERS)
     levels = Levels()
-    settings = Settings()
+    settings = Settings(sounds)
     while True:
         ans = menu.menu(sounds)
         map = levels.start_screen()
