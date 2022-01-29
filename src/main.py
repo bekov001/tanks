@@ -1,8 +1,7 @@
 import os
 import time
-import pygame
+from random import choice
 import random
-import schedule
 import pygame_gui as gui
 
 from origin.classes.player_tank import PlayerTank
@@ -196,7 +195,7 @@ SCREEN.fill((0, 0, 0))
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 7, 512)
     pygame.init()
-    load_sound('background.wav')
+    load_sound(choice(['background.wav', "song.mp3"]))
     pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play()
     sounds = {}
