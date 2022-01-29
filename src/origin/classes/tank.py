@@ -25,10 +25,6 @@ class Tank(pygame.sprite.Sprite):
         self.cd_time = 0
 
     def check_collision(self):
-        if self.cd_time:
-            if time.time() - self.cd_time >= 3:
-                self.delay = 3
-                self.cd_time = 0
         if pygame.sprite.spritecollideany(self, HEAL_BONUS_GROUP):
             if not self.healed:
                 self.health = 100
