@@ -25,6 +25,9 @@ class Brick(Texture):
     def update(self, *args):
         if not self.hp:
             self.board.set_empty(self.pos)
+            self.music['break'].play()
             self.kill()
-        elif self.hp <= 2:
-            self.show_xp()
+        elif self.hp == 2:
+            self.image = load_image(r"texture_pack\hitted_brick.png")
+        elif self.hp == 1:
+            self.image = load_image(r"texture_pack\crashing_brick.png")

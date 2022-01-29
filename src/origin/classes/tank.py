@@ -2,7 +2,7 @@ import pygame
 import random
 import time
 
-from .texture_pack.bonus import Heal
+from .texture_pack.bonus import Heal, CoolDown
 from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, \
     TANK_GROUP, STRIKE_GROUP, HEAL_BONUS_GROUP, COOLDOWN_BONUS_GROUP
 from ..helpers.func import load_image
@@ -36,7 +36,7 @@ class Tank(pygame.sprite.Sprite):
                 self.music['boost'].play()
         if pygame.sprite.spritecollideany(self, COOLDOWN_BONUS_GROUP):
             self.cd_time = time.time()
-            self.delay = 1
+            self.delay = CoolDown.cooldown_time
             self.music['boost'].play()
 
     def update(self):

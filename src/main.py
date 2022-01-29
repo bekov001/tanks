@@ -42,7 +42,7 @@ class Game:
         pos = random.choice(empty_coords)
         bonus = random.choice([Heal, CoolDown])
         bonus((self.board.left + 55 * pos[0], self.board.top + 55 * pos[1]),
-              self.board)
+              self.board, self.music)
 
     def main(self, music, volume):
         """Главная функция игры"""
@@ -196,7 +196,7 @@ if __name__ == '__main__':
     sounds = {}
     for file in ['boost.wav',
                  'death.wav', 'lose.wav', 'player_shot.wav',
-                 'shot.wav', 'victory.wav']:
+                 'shot.wav', 'victory.wav', 'break.wav']:
         sounds[file[:-4]] = make_sound(file)
     pygame.display.set_caption('Tanks')
     menu = Menu(PARAMETERS)

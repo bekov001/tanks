@@ -67,9 +67,9 @@ class Field:
                 start_pos = (self.left + index * self.cell_size,
                              self.top + j * self.cell_size)
                 if el == BRICK:
-                    Brick(start_pos, self)
+                    Brick(start_pos, self, self.music)
                 elif el == IRON:
-                    Iron(start_pos, self)
+                    Iron(start_pos, self, self.music)
                 elif el == ENEMY:
                     EnemyTank(*start_pos, self.player, self.music)
                     self.board[index][j] = EMPTY
