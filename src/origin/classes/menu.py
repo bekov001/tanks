@@ -72,6 +72,9 @@ class Menu:
                             exit()
             pygame.display.flip()
 
+    def show_history(self):
+        pass
+
     def settings(self):
         settings = True
         main_name = pygame.font.Font(pygame.font.match_font('comicsansms'), 130).render('SETTINGS', True, 'purple')

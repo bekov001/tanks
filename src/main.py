@@ -120,13 +120,13 @@ class Game:
         for al in ALL_SPRITES.sprites():
             al.kill()
 
-    def add_history(self, result):
+    def add_history(self, result, time):
         level = self.map_name.split(".")[0][-1] if any(map(str.isdigit, self.map_name)) else 0
         file = open(load_file("data/history.txt"), "a")
-        file.write(f"level {level} - {result}\n")
+        file.write(f"level {level} - {result}, your time: {str(time)}\n")
 
     def lost(self, surface, time):
-        self.add_history("lose")
+        self.add_history("lose", time)
         running = True
         res_font = pygame.font.Font(pygame.font.match_font('comicsansms'), 70)
         main_font = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
@@ -159,7 +159,7 @@ class Game:
             pygame.display.flip()
 
     def won(self, surface, time):
-        self.add_history("won")
+        self.add_history("won", time)
         self.change_csv()
         running = True
         res_font = pygame.font.Font(pygame.font.match_font('comicsansms'), 70)
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 7, 512)
     pygame.init()
     load_sound(choices(['background.wav', "song.wav"], weights=[20, 10])[0])
-    pygame.mixer.music.set_volume(0)
+    pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)
     sounds = {}
     for file in ['boost.wav',

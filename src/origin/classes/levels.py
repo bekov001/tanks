@@ -16,7 +16,7 @@ class Levels:
                 manager=self.manager))
 
     def open_levels(self):
-        "Проверяет пройденные уровни и открывает новые"
+        """Проверяет пройденные уровни и открывает новые"""
         writer = list(
             csv.reader(open("origin/media/data/levels.csv"), delimiter=";"))[1:]
         data = {key: value for key, value in writer}
