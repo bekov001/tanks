@@ -1,21 +1,31 @@
 import pygame_gui as gui
 from ..helpers import *
+import csv
 
 
 class Levels:
     def __init__(self):
         self.manager = gui.UIManager(SIZE, load_file("data/levels.json"))
         self.intro_text = ["УРОВНИ", "",
-                      "Правила игры",
-                      "Если в правилах несколько строк,",
-                      "приходится выводить их построчно"]
+                          "пройдите уровень, чтобы разблоривать следующий"]
+
         for index, name in enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
             setattr(self, name, gui.elements.UIButton(
                 relative_rect=pygame.Rect((200 + (index - 1) * 230, HEIGHT // 2 - 100), (200, 100)),
                 text=str(index),
                 manager=self.manager))
-        self.second_lvl.disable()
-        self.third_lvl.disable()
+
+    def open_levels(self):
+        "Проверяет пройденные уровни и открывает новые"
+        writer = list(
+            csv.reader(open("origin/media/data/levels.csv"), delimiter=";"))[1:]
+        data = {key: value for key, value in writer}
+        for index, name in enumerate(["first_lvl", "second_lvl", "third_lvl"],
+                                     1):
+            if data[str(index)] != "open":
+                getattr(self, name).disable()
+            else:
+                getattr(self, name).enable()
 
     def render(self):
         intro_text = self.intro_text
@@ -36,9 +46,8 @@ class Levels:
 
     def start_screen(self):
         self.render()
-
+        self.open_levels()
         while True:
-            # time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit(0)
@@ -47,9 +56,6 @@ class Levels:
                             enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
                         if event.ui_element == getattr(self, name):
                             return f'map{index}.txt'
-                # elif event.type == pygame.KEYDOWN or \
-                #         event.type == pygame.MOUSEBUTTONDOWN:
-                #     pass
                 self.manager.process_events(event)
             self.manager.update(1000)
             self.manager.draw_ui(SCREEN)

@@ -1,6 +1,7 @@
+import csv
 import os
 import time
-from random import choice
+from random import choices
 import random
 import pygame_gui as gui
 
@@ -60,7 +61,7 @@ class Game:
         timing = time.time()
         step_timing = time.time()
         seconds = 0.1
-
+        # self.add_history("test")
         while self.running:
             start = time.monotonic()
             time_delta = CLOCK.tick(60) / 1000.0
@@ -119,7 +120,13 @@ class Game:
         for al in ALL_SPRITES.sprites():
             al.kill()
 
+    def add_history(self, result):
+        level = self.map_name.split(".")[0][-1] if any(map(str.isdigit, self.map_name)) else 0
+        file = open(load_file("data/history.txt"), "a")
+        file.write(f"level {level} - {result}\n")
+
     def lost(self, surface, time):
+        self.add_history("lose")
         running = True
         res_font = pygame.font.Font(pygame.font.match_font('comicsansms'), 70)
         main_font = pygame.font.Font(pygame.font.match_font('pacifico'), 50)
@@ -152,6 +159,8 @@ class Game:
             pygame.display.flip()
 
     def won(self, surface, time):
+        self.add_history("won")
+        self.change_csv()
         running = True
         res_font = pygame.font.Font(pygame.font.match_font('comicsansms'), 70)
         congrat_font = pygame.font.Font(pygame.font.match_font('comforter'),
@@ -189,15 +198,30 @@ class Game:
                         return 'Win', time
             pygame.display.flip()
 
+    def change_csv(self):
+        """открывает новый уровень"""
+        with open("origin/media/data/levels.csv", "r", encoding="utf8") as reader:
+            reader = csv.reader(reader, delimiter=";")
+            # открываем новый уровень
+            before = False
+            data = [next(reader)]
+            for level, res in reader:
+                if res == "closed" and not before:
+                    res, before = "open", True
+                data.append((level, res))
+        with open("origin/media/data/levels.csv", "w", encoding="utf8", newline="") as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerows(data)
+
 
 SCREEN.fill((0, 0, 0))
 
 if __name__ == '__main__':
     pygame.mixer.pre_init(44100, -16, 7, 512)
     pygame.init()
-    load_sound(choice(['background.wav', "song.mp3"]))
-    pygame.mixer.music.set_volume(1)
-    pygame.mixer.music.play()
+    load_sound(choices(['background.wav', "song.wav"], weights=[20, 10])[0])
+    pygame.mixer.music.set_volume(0)
+    pygame.mixer.music.play(-1)
     sounds = {}
     for file in ['boost.wav',
                  'death.wav', 'lose.wav', 'player_shot.wav',
@@ -209,8 +233,8 @@ if __name__ == '__main__':
     settings = Settings(sounds)
     while True:
         ans = menu.menu(sounds)
-        map = levels.start_screen()
-        if map in ['map1.txt', 'map2.txt', 
+        field = levels.start_screen()
+        if field in ['map1.txt', 'map2.txt',
                    'map3.txt']:
-            game = Game(map, sounds)
+            game = Game(field, sounds)
             game.main(sounds, ans)
