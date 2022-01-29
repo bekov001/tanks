@@ -210,5 +210,7 @@ if __name__ == '__main__':
     while True:
         ans = menu.menu(sounds)
         map = levels.start_screen()
-        game = Game(map, sounds)
-        game.main(sounds, ans)
+        if map in ['map1.txt', 'map2.txt', 
+                   'map3.txt']:
+            game = Game(map, sounds)
+            game.main(sounds, ans)

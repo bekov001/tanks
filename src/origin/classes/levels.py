@@ -41,7 +41,7 @@ class Levels:
             # time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    return "CLOSE"
+                    exit(0)
                 if event.type == gui.UI_BUTTON_PRESSED:
                     for index, name in\
                             enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
