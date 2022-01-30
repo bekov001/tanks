@@ -2,10 +2,10 @@ import pygame
 import random
 import time
 
-from .texture_pack.bonus import Heal, CoolDown
-from ..helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, \
+from ..texture_pack.bonus import Heal, CoolDown
+from origin.helpers.variables import ALL_SPRITES, TEXTURE_GROUP, CELL_SIZE, \
     TANK_GROUP, STRIKE_GROUP, HEAL_BONUS_GROUP, COOLDOWN_BONUS_GROUP
-from ..helpers.func import load_image
+from origin.helpers.func import load_image
 
 
 class Tank(pygame.sprite.Sprite):
@@ -13,7 +13,7 @@ class Tank(pygame.sprite.Sprite):
     def __init__(self, x, y, music):
         super().__init__(ALL_SPRITES)
         self.health = 100
-        self.image = pygame.transform.scale(load_image("old_tank.png"),
+        self.image = pygame.transform.scale(load_image("base/player_base.png"),
                                             (CELL_SIZE, CELL_SIZE))
         self.rect = pygame.Rect(x, y, CELL_SIZE,
                                 CELL_SIZE)

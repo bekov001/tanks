@@ -1,7 +1,7 @@
 import pygame as pg
 
 
-from ..texture import Texture
+from ..inheritors.texture import Texture
 from origin.helpers.func import load_image
 from origin.helpers.variables import CELL_SIZE, STRIKE_GROUP, SCREEN, \
     HEAL_BONUS_GROUP, ALL_SPRITES, TANK_GROUP, ENEMY_TANK_GROUP, \
@@ -81,4 +81,3 @@ class CoolDown(Texture):
         self.image = self.frames[self.cur_frame]
         if self.collision:
             self.kill()
-

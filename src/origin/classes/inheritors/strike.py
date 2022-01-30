@@ -3,18 +3,18 @@ import pygame
 import random
 from itertools import product
 
-from .iron import Iron
+from ..texture_pack.iron import Iron
 import pygame
 import random
 
-from ..helpers.func import load_image
-from ..helpers.variables import *
+from origin.helpers.func import load_image
+from origin.helpers.variables import *
 
 
 class Strike(pygame.sprite.Sprite):
     damage = 20
     """Класс выстрела"""
-    def __init__(self, pos, mouse_pos, sender, muzzle):
+    def __init__(self, pos, mouse_pos, sender):
         super().__init__(ALL_SPRITES)
         radius = 5
         self.address = sender
@@ -27,7 +27,10 @@ class Strike(pygame.sprite.Sprite):
         self.image = pygame.Surface((2 * radius, 2 * radius),
                                     pygame.SRCALPHA, 32)
         try:
-            self.rect = pygame.Rect(*pos, 2 * radius, 2 * radius).move(28 * self.vector[0] / self.hypotenuse, 28 * self.vector[1] / self.hypotenuse)
+            self.rect = pygame.Rect(
+                *pos, 2 * radius, 2 * radius
+            ).move(28 * self.vector[0] / self.hypotenuse,
+                   28 * self.vector[1] / self.hypotenuse)
         except ZeroDivisionError:
             self.rect = pygame.Rect(*pos, 2 * radius, 2 * radius)
         self.current_angle = 0
@@ -41,7 +44,8 @@ class Strike(pygame.sprite.Sprite):
         for group in [TEXTURE_GROUP, self.address]:
             if pygame.sprite.spritecollideany(self, group):
                 self.collision = True
-                if self.address == ENEMY_TANK_GROUP and group == ENEMY_TANK_GROUP:
+                if self.address == ENEMY_TANK_GROUP and \
+                        group == ENEMY_TANK_GROUP:
                     for tank in self.address:
                         if tank.rect.x - 20 < self.rect.x\
                                 < tank.rect.x + tank.rect.width and \
@@ -65,5 +69,3 @@ class Strike(pygame.sprite.Sprite):
         # if self.destination[1] < self.pos[1]:
         #     self.vy = -1 * self.vy
         self.rect = self.rect.move(self.vx, self.vy)
-
-

@@ -1,2 +1,3 @@
 level 1 - won: with time - 15.2
 level 2 - lose: with time - 20.8
+level 1 - lose: with time - 26.0

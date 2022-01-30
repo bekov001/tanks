@@ -4,8 +4,8 @@ import time
 from ..helpers.variables import *
 from ..helpers.func import load_image
 
-from .strike import Strike
-from .tank import Tank
+from .inheritors.strike import Strike
+from .inheritors.tank import Tank
 from .player_muzzle import Muzzle
 
 
@@ -23,16 +23,16 @@ class EnemyTank(Tank):
         self.music = music
 
     def strike(self):
-        Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP, self.muzzle)
+        Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
         self.music['shot'].play()
 
     def show_xp(self):
         xp = self.health / 100
-        pygame.draw.rect(SCREEN, "green", (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
+        pygame.draw.rect(SCREEN, "green",
+                         (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
         pygame.draw.rect(SCREEN, "red",
-                         (self.rect.x + CELL_SIZE * xp, self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
-        # pygame.draw.rect(SCREEN, "red", (200 * xp, 10, 200 - 200 * xp, 10))
-        # print(self.health)
+                         (self.rect.x + CELL_SIZE * xp,
+                          self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
 
     def get_muzzle(self):
         """Функция для получения дула танка"""
@@ -85,9 +85,6 @@ class EnemyTank(Tank):
                                      pygame.K_DOWN])
         return dir
 
-    # def generate_direction(self, available_directions):
-    #     return random.choice(available_directions)
-
     def update(self, *args):
         if self.cd_time:
             if time.time() - self.cd_time >= 3:
@@ -98,7 +95,9 @@ class EnemyTank(Tank):
                                    self.enemy.rect.center)
             data = zip(
                 (-90, 90, 180, 0),
-                ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
+                ((CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0,
+                                                                    CELL_SIZE)
+                 ),
                 [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN])
 
             if args:
@@ -110,9 +109,12 @@ class EnemyTank(Tank):
                             board.get_cell((self.rect.x + move[0],
                                             self.rect.y + move[1]))) and \
                             all((self.rect.x + move[0],
-                                 self.rect.y + move[1]) != (tank.rect.x, tank.rect.y)  for tank in ENEMY_TANK_GROUP) and \
+                                 self.rect.y + move[1]) !=
+                                (tank.rect.x, tank.rect.y)
+                                for tank in ENEMY_TANK_GROUP) and \
                             (self.rect.x + move[0],
-                             self.rect.y + move[1]) != (self.enemy.rect.x, self.enemy.rect.y):
+                             self.rect.y + move[1]) != (
+                            self.enemy.rect.x, self.enemy.rect.y):
                         self.rect = self.rect.move(*move)
                         self.image = pygame.transform.rotate(
                             self.image, self.current_angle - angle)
@@ -129,6 +131,3 @@ class EnemyTank(Tank):
             self.music['death'].play()
             self.muzzle.kill()
             self.kill()
-
-
-

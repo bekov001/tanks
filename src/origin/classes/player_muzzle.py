@@ -23,7 +23,8 @@ class Muzzle(pygame.sprite.Sprite):
                     mouse[1] - pos[1]) ** 2) ** 0.5
         if mouse[0] < pos[0]:
             if mouse[1] < pos[1]:
-                self.angle = -90 + -math.acos(catets[0] / hypotenuse) * (180 / math.pi)
+                self.angle = -90 + -math.acos(catets[0] / hypotenuse) * \
+                             (180 / math.pi)
             elif mouse[1] > pos[1]:
                 self.angle = - math.asin(catets[0] / hypotenuse) * (
                             180 / math.pi)
@@ -31,7 +32,8 @@ class Muzzle(pygame.sprite.Sprite):
                 self.angle = -90
         elif mouse[0] > pos[0]:
             if mouse[1] < pos[1]:
-                self.angle = 90 + math.acos(catets[0] / hypotenuse) * (180 / math.pi)
+                self.angle = 90 + math.acos(catets[0] / hypotenuse) * \
+                             (180 / math.pi)
             elif mouse[1] > pos[1]:
                 self.angle = math.asin(catets[0] / hypotenuse) * (
                             180 / math.pi)

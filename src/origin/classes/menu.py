@@ -11,7 +11,6 @@ class Menu:
         if parameters is None:
             parameters = [
                 (120, 140, 'Start', (125, 0, 255), (255, 255, 255), 0)]
-        # self.func = func
         self.parameters = parameters
         self.image = load_image('project_name.png')
         self.image = pygame.transform.scale(self.image, (700, 100))
@@ -28,7 +27,8 @@ class Menu:
     def menu(self, music):
         self.music = music
         done = True
-        history_image = pygame.transform.scale(load_image('history.png'), (100, 100))
+        history_image = pygame.transform.scale(load_image('history.png'),
+                                               (100, 100))
         font_menu = pygame.font.Font(pygame.font.match_font('pacifico'), 100)
         index = 0
         while done:
@@ -41,7 +41,6 @@ class Menu:
             SURFACE.blit(history_image, (5, 750))
             SURFACE.blit(self.image, (150, 50))
             SCREEN.blit(SURFACE, (0, 0))
-            # pygame.draw.line(screen, (255, 0, 0), (500, 0), (500, 890))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
@@ -52,7 +51,6 @@ class Menu:
                                 750 <= mouse_pos[1] <= 850:
                             self.show_history()
                         elif index == 0:
-                            # self.func()
                             return self.volume
                         elif index == 1:
                             self.volume = self.settings()
@@ -69,7 +67,6 @@ class Menu:
                             index += 1
                     if event.key == pygame.K_RETURN:
                         if index == 0:
-                            # self.func()
                             return self.volume
                         elif index == 1:
                             self.volume = self.settings()
@@ -105,7 +102,9 @@ class Menu:
             )
             SURFACE.blit(back_button, (5, 750))
             for line in range(len(results)):
-                SURFACE.blit(main_font.render(results[line], True, 'white'), (pos_of_results[0], pos_of_results[1] + 60 * line))
+                SURFACE.blit(main_font.render(results[line], True, 'white'),
+                             (pos_of_results[0], pos_of_results[1] + 60 * line)
+                             )
             if results:
                 for i in range(3):
                     record = list(
@@ -166,8 +165,6 @@ class Menu:
             pygame.draw.line(SURFACE, 'white', (300, 520), (690, 520))
             pygame.draw.rect(SURFACE, (89, 118, 10), (*pos, 20, 40))
             pygame.draw.rect(SURFACE, (89, 118, 10), (*pos_back, 20, 40))
-            # pygame.draw.rect(SURFACE, 'white', (445, 595, 145, 70), 1)
-            # pygame.draw.rect(SURFACE, 'white', (425, 765, 175, 70), 1)
             SCREEN.blit(SURFACE, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

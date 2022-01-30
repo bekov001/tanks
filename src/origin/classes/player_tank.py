@@ -4,8 +4,8 @@ import pygame
 import math
 import random
 
-from .strike import Strike
-from .tank import Tank
+from .inheritors.strike import Strike
+from .inheritors.tank import Tank
 from .player_muzzle import Muzzle
 from ..helpers import CELL_SIZE, TANK_GROUP, ENEMY_TANK_GROUP, load_image, \
     SCREEN
@@ -27,7 +27,7 @@ class PlayerTank(Tank):
         if event.type == pygame.MOUSEBUTTONDOWN \
                 and time.time() - self.created > self.delay * 0.3:
             self.music['player_shot'].play()
-            Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP, self.muzzle)
+            Strike(self.rect.center, event.pos, ENEMY_TANK_GROUP)
             self.created = time.time()
             self.muzzle.get_muzzle(self.rect.center, event.pos)
 
@@ -49,9 +49,11 @@ class PlayerTank(Tank):
                 self.delay = 3
                 self.cd_time = 0
         if self.health:
-            data = zip((-90, 90, 180, 0), (
-            (CELL_SIZE, 0), (-CELL_SIZE, 0), (0, -CELL_SIZE), (0, CELL_SIZE)),
-                       [(pygame.K_RIGHT, pygame.K_d), (pygame.K_LEFT, pygame.K_a), (pygame.K_UP, pygame.K_w),
+            data = zip((-90, 90, 180, 0), ((CELL_SIZE, 0),
+                                           (-CELL_SIZE, 0),
+                                           (0, -CELL_SIZE), (0, CELL_SIZE)),
+                       [(pygame.K_RIGHT, pygame.K_d),
+                        (pygame.K_LEFT, pygame.K_a), (pygame.K_UP, pygame.K_w),
                         (pygame.K_DOWN, pygame.K_s)])
             self.muzzle.get_muzzle(self.rect.center, pygame.mouse.get_pos())
             if args and args[0].type == pygame.KEYDOWN:
@@ -64,10 +66,13 @@ class PlayerTank(Tank):
                                      self.rect.y + move[1])
                                 )
                             ) and all((self.rect.x + move[0],
-                                     self.rect.y + move[1]) != (tank.rect.x, tank.rect.y) for tank in ENEMY_TANK_GROUP):
+                                       self.rect.y + move[1]) !=
+                                      (tank.rect.x, tank.rect.y)
+                                      for tank in ENEMY_TANK_GROUP):
                         self.rect = self.rect.move(*move)
-                        self.image = pygame.transform.rotate(self.image,
-                                                             self.current_angle - angle)
+                        self.image = pygame.transform.rotate(
+                            self.image,
+                            self.current_angle - angle)
                         self.muzzle.get_muzzle(self.rect.center,
                                                pygame.mouse.get_pos())
                         self.current_angle = angle

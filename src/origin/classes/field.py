@@ -3,7 +3,7 @@ import os
 from .texture_pack.brick import Brick
 from .enemy_tank import EnemyTank
 from .player_tank import PlayerTank
-from .iron import Iron
+from .texture_pack.iron import Iron
 from ..helpers.variables import *
 
 
@@ -27,7 +27,8 @@ class Field:
         self.player = player
 
     def load_level(self, filename):
-        file = open(os.path.join("origin", "media", 'data', "maps", filename), encoding="utf8")
+        file = open(os.path.join("origin", "media", 'data', "maps", filename),
+                    encoding="utf8")
         for index, el in enumerate(file.read().split("\n")):
             for i, letter in enumerate(el):
                 if letter == IRON_BLOCK:
@@ -93,14 +94,3 @@ class Field:
             return (x - self.left) // self.cell_size, (
                     y - self.top) // self.cell_size
         return (-1, -1)
-
-    # def get_click(self, mouse_pos):
-    #     """Принимает координаты нажатия"""
-    #     cell = self.get_cell(mouse_pos)
-    #     if cell is not None:
-    #         self.on_click(cell)
-    #         self.move = not self.move
-    #
-    # def on_click(self, cell):
-    #     """Изменение поля, при помощи изменения 0 на 1 или наоборот"""
-    #     self.board[cell[0]][cell[1]] = (self.board[cell[0]][cell[1]] + 1) % 2

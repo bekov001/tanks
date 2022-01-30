@@ -9,16 +9,19 @@ class Levels:
         self.intro_text = ["УРОВНИ", "",
                           "пройдите уровень, чтобы разблоривать следующий"]
 
-        for index, name in enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
+        for index, name in enumerate(["first_lvl", "second_lvl", "third_lvl"],
+                                     1):
             setattr(self, name, gui.elements.UIButton(
-                relative_rect=pygame.Rect((200 + (index - 1) * 230, HEIGHT // 2 - 100), (200, 100)),
+                relative_rect=pygame.Rect((200 + (index - 1) * 230,
+                                           HEIGHT // 2 - 100), (200, 100)),
                 text=str(index),
                 manager=self.manager))
 
     def open_levels(self):
         """Проверяет пройденные уровни и открывает новые"""
         writer = list(
-            csv.reader(open("origin/media/data/levels.csv"), delimiter=";"))[1:]
+            csv.reader(open("origin/media/data/levels.csv"), delimiter=";")
+        )[1:]
         data = {key: value for key, value in writer}
         for index, name in enumerate(["first_lvl", "second_lvl", "third_lvl"],
                                      1):
@@ -53,7 +56,8 @@ class Levels:
                     exit(0)
                 if event.type == gui.UI_BUTTON_PRESSED:
                     for index, name in\
-                            enumerate(["first_lvl", "second_lvl", "third_lvl"], 1):
+                            enumerate(["first_lvl", "second_lvl", "third_lvl"],
+                                      1):
                         if event.ui_element == getattr(self, name):
                             return f'map{index}.txt'
                 self.manager.process_events(event)

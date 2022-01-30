@@ -61,9 +61,7 @@ class Game:
         timing = time.time()
         step_timing = time.time()
         seconds = 0.1
-        # self.add_history("test")
         while self.running:
-            start = time.monotonic()
             time_delta = CLOCK.tick(60) / 1000.0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -115,13 +113,16 @@ class Game:
                 return res
         self.running = False
 
-    def stop_game(self):
+    @staticmethod
+    def stop_game():
         """Останавливает игру, уничтожая все элементы"""
         for al in ALL_SPRITES.sprites():
             al.kill()
 
     def add_history(self, result, time):
-        level = self.map_name.split(".")[0][-1] if any(map(str.isdigit, self.map_name)) else 0
+        level = self.map_name.split(".")[0][-1] if any(map(str.isdigit,
+                                                           self.map_name)) \
+            else 0
         file = open(load_file("data/history.txt"), "a")
         file.write(f"level {level} - {result}: with time - {str(time)}\n")
 
@@ -198,9 +199,11 @@ class Game:
                         return 'Win', time
             pygame.display.flip()
 
-    def change_csv(self):
+    @staticmethod
+    def change_csv():
         """открывает новый уровень"""
-        with open("origin/media/data/levels.csv", "r", encoding="utf8") as reader:
+        with open("origin/media/data/levels.csv", "r", encoding="utf8") as \
+                reader:
             reader = csv.reader(reader, delimiter=";")
             # открываем новый уровень
             before = False
@@ -209,7 +212,8 @@ class Game:
                 if res == "closed" and not before:
                     res, before = "open", True
                 data.append((level, res))
-        with open("origin/media/data/levels.csv", "w", encoding="utf8", newline="") as file:
+        with open("origin/media/data/levels.csv", "w",
+                  encoding="utf8", newline="") as file:
             writer = csv.writer(file, delimiter=";")
             writer.writerows(data)
 
@@ -235,6 +239,6 @@ if __name__ == '__main__':
         ans = menu.menu(sounds)
         field = levels.start_screen()
         if field in ['map1.txt', 'map2.txt',
-                   'map3.txt']:
+                     'map3.txt']:
             game = Game(field, sounds)
             game.main(sounds, ans)
