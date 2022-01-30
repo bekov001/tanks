@@ -35,6 +35,7 @@ class PlayerTank(Tank):
         return self.rect.center
 
     def show_xp(self):
+        """Показывает здоровье танка"""
         xp = self.health / 100
         font = pygame.font.Font(pygame.font.match_font('comicsansms'), 15)
         pygame.draw.rect(SCREEN, "green", (10, 10, 200 * xp, 10))

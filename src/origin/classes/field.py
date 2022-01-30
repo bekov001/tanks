@@ -27,6 +27,7 @@ class Field:
         self.player = player
 
     def load_level(self, filename):
+        """ Загрузка уровня"""
         file = open(os.path.join("origin", "media", 'data', "maps", filename),
                     encoding="utf8")
         for index, el in enumerate(file.read().split("\n")):

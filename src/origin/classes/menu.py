@@ -76,7 +76,9 @@ class Menu:
                             exit()
             pygame.display.flip()
 
-    def show_history(self):
+    @staticmethod
+    def show_history():
+        """Показывает историю игр"""
         history = True
         SCREEN.fill((16, 164, 149))
         pos_of_results = [115, 370]
@@ -141,6 +143,7 @@ class Menu:
             pygame.display.flip()
 
     def settings(self):
+        """Показывает экран настроек"""
         settings = True
         main_name = pygame.font.Font(pygame.font.match_font(
             'comicsansms'), 130).render('SETTINGS', True, 'purple')

@@ -26,6 +26,7 @@ class Strike(pygame.sprite.Sprite):
         self.hypotenuse = (self.vector[0] ** 2 + self.vector[1] ** 2) ** 0.5
         self.image = pygame.Surface((2 * radius, 2 * radius),
                                     pygame.SRCALPHA, 32)
+        # рассчет координаты выхода пуль, во избежание неровностей
         try:
             self.rect = pygame.Rect(
                 *pos, 2 * radius, 2 * radius

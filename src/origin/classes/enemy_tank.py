@@ -23,10 +23,12 @@ class EnemyTank(Tank):
         self.music = music
 
     def strike(self):
+        """Функция стрельбы"""
         Strike(self.rect.center, self.enemy.rect.center, TANK_GROUP)
         self.music['shot'].play()
 
     def show_xp(self):
+        """Функция показать здоровье танка"""
         xp = self.health / 100
         pygame.draw.rect(SCREEN, "green",
                          (self.rect.x, self.rect.y - 10, CELL_SIZE * xp, 5))
@@ -34,11 +36,8 @@ class EnemyTank(Tank):
                          (self.rect.x + CELL_SIZE * xp,
                           self.rect.y - 10, CELL_SIZE - CELL_SIZE * xp, 5))
 
-    def get_muzzle(self):
-        """Функция для получения дула танка"""
-        pass
-
     def generate_direction(self, enemy_pos):
+        """Функция генерирует ход танка ИИ"""
         if enemy_pos[0] > self.rect.center[0]:
             if enemy_pos[1] > self.rect.center[1]:
                 dir = random.choice(
@@ -123,6 +122,7 @@ class EnemyTank(Tank):
                         self.current_angle = angle
                         self.healed = False
                         self.do_strike += 1
+                        # соблюдение кулдауна
                 if self.do_strike == self.delay:
                     self.strike()
                     self.do_strike = 0

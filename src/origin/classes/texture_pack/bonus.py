@@ -23,6 +23,7 @@ class Heal(Texture):
         self.collision = False
 
     def cut_sheet(self, sheet, columns, rows):
+        # делает из одной картинки несколько кадров
         self.rect = pg.Rect(*self.pos, sheet.get_width() // columns,
                             sheet.get_height() // rows)
         for j in range(rows):
@@ -61,6 +62,7 @@ class CoolDown(Texture):
         self.collision = False
 
     def cut_sheet(self, sheet, columns, rows):
+        # делает из одной картинки несколько кадров
         self.rect = pg.Rect(*self.pos, sheet.get_width() // columns,
                             sheet.get_height() // rows)
         for j in range(rows):
